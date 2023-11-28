@@ -1,7 +1,9 @@
 package WanderBuddy.backend.app.reservation.domain;
 
+import WanderBuddy.backend.app.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,4 +15,15 @@ public class Reservation {
     @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+//    private Program program
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @Builder
+    public Reservation(Member member) {
+        this.member = member;
+    }
 }

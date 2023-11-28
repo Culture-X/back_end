@@ -2,8 +2,10 @@ package WanderBuddy.backend.app.banner.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +21,16 @@ public class Banner {
     @Column(nullable = false)
     private String imgUrl;
 
+    private String title;
+
+    @CreatedDate
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
+
+    @Builder
+    public Banner(String imgUrl, String title, LocalDateTime createdAt) {
+        this.imgUrl = imgUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+    }
 }
