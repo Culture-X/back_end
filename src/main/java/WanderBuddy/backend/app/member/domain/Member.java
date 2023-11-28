@@ -2,14 +2,17 @@ package WanderBuddy.backend.app.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Getter
 @Table(
     name = "member",
     indexes = {
@@ -21,8 +24,9 @@ import java.util.UUID;
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class Member {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "member_type")
+public abstract class Member {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -30,13 +34,25 @@ public class Member {
     private UUID userSeq;
 
     @Column(nullable = false)
-    private String username;
+    private String nickName;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private String userEmail;
 
-    public Member(String username, LocalDateTime createAt) {
-        this.username = username;
-        this.createAt = createAt;
-    }
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at", nullable = false)
+    private LocalDateTime deletedAt;
+
+    @Column(nullable = false)
+    private Boolean recieveMail;
+
+    @Column(nullable = false)
+    private Boolean recievePush;
 }
