@@ -7,18 +7,23 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tourist extends Member {
 
     private String profileImgUrl;
 
-//    private Set<Plan> planWish;
 
-//    private Set<Program> programWish;
 
     @Builder
-    public Tourist(String profileImgUrl) {
+    public Tourist(String profileImgUrl, UUID uuid) {
         this.profileImgUrl = profileImgUrl;
+        updateUserUuid(uuid);
+    }
+
+    private void updateUserUuid(UUID uuid) {
+        super.updateUuid(uuid);
     }
 }

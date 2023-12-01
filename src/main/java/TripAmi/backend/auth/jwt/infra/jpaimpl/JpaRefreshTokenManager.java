@@ -2,6 +2,8 @@ package TripAmi.backend.auth.jwt.infra.jpaimpl;
 
 import TripAmi.backend.auth.jwt.domain.RefreshToken;
 import TripAmi.backend.auth.jwt.domain.RefreshTokenManager;
+import TripAmi.backend.auth.jwt.domain.exception.RefreshTokenNotFoundException;
+import TripAmi.backend.config.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

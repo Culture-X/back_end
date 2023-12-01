@@ -6,6 +6,8 @@ import TripAmi.backend.auth.authmember.service.dto.RefreshTokenAuth;
 import TripAmi.backend.auth.jwt.domain.AuthToken;
 import TripAmi.backend.web.api.member.request.SignupMemberRequest;
 
+import java.util.UUID;
+
 import static TripAmi.backend.auth.authmember.service.dto.ConfirmTokenDto.ConfirmTokenRequest;
 
 public interface AuthMemberService {
@@ -16,7 +18,7 @@ public interface AuthMemberService {
      * @param request 멤버 생성 요청 DTO
      * @return member id
      */
-    Long join(SignupMemberRequest request);
+    UUID join(SignupMemberRequest request);
 
     /**
      * 가입 승인

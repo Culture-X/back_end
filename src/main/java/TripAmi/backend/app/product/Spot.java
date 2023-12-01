@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +27,7 @@ public class Spot {
     @Column(nullable = false)
     String content;
     @Column(nullable = false)
-    Time requiredTime;
+    LocalTime requiredTime;
 
     @Builder
     public Spot(
@@ -34,7 +35,7 @@ public class Spot {
         String title,
         String imgUrl,
         String content,
-        Time requiredTime) {
+        LocalTime requiredTime) {
         this.program = program;
         this.title = title;
         this.imgUrl = imgUrl;

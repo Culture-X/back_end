@@ -3,11 +3,9 @@ package TripAmi.backend.config;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.bind.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Getter
-@ConstructorBinding
 @ConfigurationProperties(prefix = "social-feed.jwt")
 public class JwtProperties {
     private final long accessTokenLifespanInMinutes;

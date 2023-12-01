@@ -25,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type")
-public abstract class Member extends BaseEntity {
+public abstract class Member {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -44,12 +44,16 @@ public abstract class Member extends BaseEntity {
     @Column(nullable = false)
     private Boolean recievePush;
 
-    @Builder
     public Member(UUID userSeq, String username, String userEmail, Boolean recieveMail, Boolean recievePush) {
         this.userSeq = userSeq;
         this.username = username;
         this.userEmail = userEmail;
         this.recieveMail = recieveMail;
         this.recievePush = recievePush;
+    }
+
+    public UUID updateUuid(UUID uuid) {
+        this.userSeq = uuid;
+        return uuid;
     }
 }
