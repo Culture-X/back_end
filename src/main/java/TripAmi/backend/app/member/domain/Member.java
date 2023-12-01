@@ -1,13 +1,13 @@
 package TripAmi.backend.app.member.domain;
 
+import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type")
-public abstract class Member {
+public abstract class Member extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -33,25 +33,23 @@ public abstract class Member {
     private UUID userSeq;
 
     @Column(nullable = false)
-    private String nickName;
+    private String username;
 
     @Column(nullable = false)
     private String userEmail;
-
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at", nullable = false)
-    private LocalDateTime deletedAt;
 
     @Column(nullable = false)
     private Boolean recieveMail;
 
     @Column(nullable = false)
     private Boolean recievePush;
+
+    @Builder
+    public Member(UUID userSeq, String username, String userEmail, Boolean recieveMail, Boolean recievePush) {
+        this.userSeq = userSeq;
+        this.username = username;
+        this.userEmail = userEmail;
+        this.recieveMail = recieveMail;
+        this.recievePush = recievePush;
+    }
 }
