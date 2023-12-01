@@ -1,8 +1,12 @@
 package TripAmi.backend.app.product;
 
-import TripAmi.backend.app.util.EntityBase;
+import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +14,9 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
-public abstract class Product extends EntityBase {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -19,4 +25,18 @@ public abstract class Product extends EntityBase {
     List<String> images = new ArrayList<>();
     String content;
     Integer price;
+    @Embedded
+    BaseEntity baseEntity;
+
+    @Builder
+    public Product(String title, List<String> images, String content, Integer price) {
+        this.title = title;
+        this.images = images;
+        this.content = content;
+        this.price = price;
+    }
+
+    public void delete() {
+        baseEntity.delete();
+    }
 }

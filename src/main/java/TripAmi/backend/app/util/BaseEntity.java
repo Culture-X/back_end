@@ -1,5 +1,6 @@
 package TripAmi.backend.app.util;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,7 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass
+@Embeddable
 @Getter
 public abstract class BaseEntity {
     @CreatedDate
@@ -15,8 +16,7 @@ public abstract class BaseEntity {
     @LastModifiedDate
     LocalDateTime updatedAt;
     Boolean deleted;
-
-    public void deleteData() {
+    public void delete() {
         this.deleted = true;
     }
 }
