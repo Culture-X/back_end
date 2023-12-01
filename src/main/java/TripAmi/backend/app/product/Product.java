@@ -4,7 +4,6 @@ import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,15 +19,16 @@ public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     String title;
+
     @Convert(converter = StringListConverter.class)
     List<String> images = new ArrayList<>();
-    String content;
-    Integer price;
-    @Embedded
-    BaseEntity baseEntity;
 
-    @Builder
+    String content;
+
+    Integer price;
+
     public Product(String title, List<String> images, String content, Integer price) {
         this.title = title;
         this.images = images;
@@ -36,7 +36,7 @@ public abstract class Product {
         this.price = price;
     }
 
-    public void delete() {
-        baseEntity.delete();
-    }
+//    public void delete() {
+//        baseEntity.delete();
+//    }
 }

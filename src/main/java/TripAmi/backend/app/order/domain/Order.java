@@ -1,5 +1,7 @@
 package TripAmi.backend.app.order.domain;
 
+import TripAmi.backend.app.product.Product;
+import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,26 +17,21 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private Product product;
+    private Product product;
 
     private Integer price;
 
     private Integer count;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private LocalDateTime deletedAt;
+    @Embedded
+    private BaseEntity baseEntity;
 
     @Builder
-    public Order(Integer price, Integer count, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+    public Order(Product product, Integer price, Integer count, BaseEntity baseEntity) {
+        this.product = product;
         this.price = price;
         this.count = count;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.baseEntity = baseEntity;
     }
 }
 

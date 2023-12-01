@@ -7,6 +7,7 @@ import TripAmi.backend.auth.authmember.service.dto.PasswordPatternChecker;
 import TripAmi.backend.auth.authmember.service.dto.RefreshTokenAuth;
 import TripAmi.backend.auth.authmember.service.exception.AuthMemberNotFoundException;
 import TripAmi.backend.auth.authmember.service.exception.ConfirmNotFoundException;
+import TripAmi.backend.auth.jwt.domain.AuthToken;
 import TripAmi.backend.auth.jwt.service.JwtIssuer;
 import TripAmi.backend.web.api.member.request.SignupMemberRequest;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         passwordPatternChecker.checkPasswordPattern(password);
 
         String token = tokenSender.generateToken();
-        Long memberId = transactionTemplate.execute(joinTransaction(request, token));
+        UUID memberId = transactionTemplate.execute(joinTransaction(request, token));
 
         tokenSender.sendEmail(request.getEmail(), token);
 

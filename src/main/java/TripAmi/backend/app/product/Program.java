@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,10 @@ import java.util.List;
 @Getter
 public class Program extends Product {
     Long amiId;
-    @OneToMany(mappedBy = "spot")
-    List<Spot> courseList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "program")
+    List<Spot> spots = new ArrayList<>();
+
     Integer totalPersonnel;
     @Enumerated(value = EnumType.STRING)
     ProgramTheme theme;
@@ -29,10 +30,10 @@ public class Program extends Product {
     String location;
 
     @Builder
-    public Program(String title, List<String> images, String content, Integer price, Long amiId, List<Spot> courseList, Integer totalPersonnel, LocalDate date, ProgramTheme theme, List<String> keyWords, String location) {
+    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPersonnel, ProgramTheme theme, List<String> keyWords, String location) {
         super(title, images, content, price);
         this.amiId = amiId;
-        this.courseList = courseList;
+        this.spots.addAll(spots);
         this.totalPersonnel = totalPersonnel;
         this.theme = theme;
         this.keyWords = keyWords;
