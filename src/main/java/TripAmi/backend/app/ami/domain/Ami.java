@@ -27,10 +27,4 @@ public class Ami extends Member {
     private String strength;
 
 //    private Set<Program> wishPlan;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private LocalDateTime deletedAt;
 }

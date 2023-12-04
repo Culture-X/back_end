@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "order")
 public class Order {
     @Id
     @Column(name = "order_id")
