@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "order")
 public class Order {
     @Id
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Product product;
+//    private Product product;
 
     private Integer price;
 
@@ -27,8 +28,8 @@ public class Order {
     private BaseEntity baseEntity;
 
     @Builder
-    public Order(Product product, Integer price, Integer count, BaseEntity baseEntity) {
-        this.product = product;
+    public Order( Integer price, Integer count, BaseEntity baseEntity) {
+//        this.product = product;
         this.price = price;
         this.count = count;
         this.baseEntity = baseEntity;

@@ -35,14 +35,22 @@ public abstract class Member {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_email")
     private String userEmail;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "recieve_mail")
     private Boolean recieveMail;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "recieve_push")
     private Boolean recievePush;
+
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "createdAt", column = @Column(name = "created_at")),
+        @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
+        @AttributeOverride(name = "deleted", column = @Column(name = "member_deleted"))
+    })
+    private BaseEntity baseEntity = new BaseEntity();
 
     public Member(UUID userSeq, String username, String userEmail, Boolean recieveMail, Boolean recievePush) {
         this.userSeq = userSeq;

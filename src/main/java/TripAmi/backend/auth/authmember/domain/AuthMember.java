@@ -40,7 +40,7 @@ public class AuthMember {
     @Enumerated(EnumType.STRING)
     private ConfirmStatus status;
     @Column(name = "trip_ami_id")
-    private Long yourFoodId;  // yourFood 서비스의 MemberId.
+    private Long tripAmiId;
 
     @Builder
     protected AuthMember(
@@ -88,8 +88,8 @@ public class AuthMember {
         }
     }
 
-    public void updateYourFoodId(Long yourFoodMemberId) {
-        this.yourFoodId = yourFoodMemberId;
+    public void updateYourFoodId(Long tripAmiId) {
+        this.tripAmiId = tripAmiId;
     }
 
     public void verifyConfirmState() {
