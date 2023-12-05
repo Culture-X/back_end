@@ -95,7 +95,7 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         authMember.verifyPassword(passwordAuth.password(), passwordHasher);
         authMember.verifyConfirmState();
 
-        return jwtIssuer.issue(authMember.getYourFoodId(), authMember.getUsername());
+        return jwtIssuer.issue(authMember.getTripAmiId(), authMember.getUsername());
     }
 
     @Override
