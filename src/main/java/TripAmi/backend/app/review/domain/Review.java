@@ -1,6 +1,7 @@
 package TripAmi.backend.app.review.domain;
 
 import TripAmi.backend.app.order.domain.Order;
+import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,21 +28,13 @@ public class Review {
 
     private String content;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at", nullable = false)
-    private LocalDateTime deletedAt;
+    @Embedded
+    private BaseEntity baseEntity;
 
     @Builder
     public Review(Order order, Integer rating, String content) {
         this.order = order;
         this.rating = rating;
         this.content = content;
-        this.createdAt = LocalDateTime.now();
     }
 }
