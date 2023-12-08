@@ -6,17 +6,27 @@
 //import TripAmi.backend.auth.jwt.domain.AuthToken;
 //import TripAmi.backend.web.api.common.GenericResponse;
 //import TripAmi.backend.web.api.common.StatusCode;
+//import TripAmi.backend.web.api.member.request.AuthenticateEmailRequest;
 //import TripAmi.backend.web.api.member.request.SignupMemberRequest;
 //import TripAmi.backend.web.api.member.response.SignupResponse;
+//import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.RestController;
 //
+//import java.util.UUID;
+//
 //@RestController
 //@RequiredArgsConstructor
 //public class AuthController {
 //    private final AuthMemberService authMemberService;
+//
+//    public String authenticateEmail(@RequestBody @Valid AuthenticateEmailRequest authenticateEmailRequest) {
+//        // 중복확인
+//        // 이메일 전송
+//        // 코드 반환
+//    }
 //
 //    /**
 //     * 회원가입
@@ -26,10 +36,10 @@
 //     */
 //    @PostMapping("/api/v1/members")
 //    public GenericResponse<SignupResponse> registerMember(@RequestBody SignupMemberRequest signupMemberRequest) {
-//        Long memberId = authMemberService.join(signupMemberRequest);
-//        SignupResponse signupResponse = SignupResponse.builder()
-//                                            .id(memberId)
-//                                            .build();
+////        UUID memberId = authMemberService.join(signupMemberRequest);
+////        SignupResponse signupResponse = SignupResponse.builder()
+////                                            .id(memberId)
+////                                            .build();
 //
 //        return GenericResponse.<SignupResponse>builder()
 //                   .statusCode(StatusCode.CREATED)
@@ -38,6 +48,12 @@
 //
 //    }
 //
+//    /**
+//     * 로그인
+//     *
+//     * @param passwordAuth
+//     * @return
+//     */
 //    @PostMapping("/api/v1/member/auth")
 //    public GenericResponse<AuthToken> authWithUsernamePassword(@RequestBody PasswordAuth passwordAuth) {
 //        AuthToken authToken = authMemberService.authenticate(passwordAuth);
@@ -48,6 +64,7 @@
 //                   build();
 //
 //    }
+//
 //
 //    @PostMapping("/api/v1/member/renew")
 //    public GenericResponse<AuthToken> authWithUsernamePassword(@RequestBody RefreshTokenAuth refreshTokenAuth) {

@@ -5,17 +5,19 @@ import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
-    @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
 //    private Product product;
@@ -25,14 +27,13 @@ public class Order {
     private Integer count;
 
     @Embedded
-    private BaseEntity baseEntity;
+    private BaseEntity baseEntity = new BaseEntity();
 
     @Builder
-    public Order( Integer price, Integer count, BaseEntity baseEntity) {
+    public Order( Integer price, Integer count) {
 //        this.product = product;
         this.price = price;
         this.count = count;
-        this.baseEntity = baseEntity;
     }
 }
 

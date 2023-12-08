@@ -11,16 +11,13 @@ import lombok.Getter;
  */
 public class SignupMemberRequest {
     @NotEmpty
-    private String username;
-    @NotEmpty
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
     @NotEmpty
     @Size(min = 10, message = "비밀번호는 최소 10자 이상이어야 합니다.")
     private String password;
 
-    public SignupMemberRequest(String username, String email, String password) {
-        this.username = username;
+    public SignupMemberRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }

@@ -1,6 +1,7 @@
 package TripAmi.backend.app.member.domain;
 
 import TripAmi.backend.app.util.BaseEntity;
+import TripAmi.backend.app.util.Image;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,52 +17,43 @@ import java.util.UUID;
     name = "member",
     indexes = {
         @Index(
-            name = "idx__member__username",
-            columnList = "username",
+            name = "idx__member__nick_name",
+            columnList = "nick_name",
             unique = true
         )
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "member_type")
-public abstract class Member {
+public class Member {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID userSeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name = "member_id")
+    private Long id;
 
-    @Column(nullable = false)
-    private String username;
+    @Column(nullable = false, name = "nick_name")
+    private String nickName;
 
-    @Column(nullable = false, name = "user_email")
-    private String userEmail;
+    @Column(nullable = false, name = "img_url")
+    private String imgUrl;
 
     @Column(nullable = false, name = "recieve_mail")
-    private Boolean recieveMail;
+    private Boolean agreedMailNotification;
 
     @Column(nullable = false, name = "recieve_push")
-    private Boolean recievePush;
+    private Boolean agreedPushNotification;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ami_id")
+    private Ami ami;
 
     @Embedded
-    @AttributeOverrides({
-        @AttributeOverride(name = "createdAt", column = @Column(name = "created_at")),
-        @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
-        @AttributeOverride(name = "deleted", column = @Column(name = "member_deleted"))
-    })
     private BaseEntity baseEntity = new BaseEntity();
 
-    public Member(UUID userSeq, String username, String userEmail, Boolean recieveMail, Boolean recievePush) {
-        this.userSeq = userSeq;
-        this.username = username;
-        this.userEmail = userEmail;
-        this.recieveMail = recieveMail;
-        this.recievePush = recievePush;
-    }
-
-    public UUID updateUuid(UUID uuid) {
-        this.userSeq = uuid;
-        return uuid;
+    @Builder
+    public Member(String nickName, String imgUrl, Boolean agreedMailNotification, Boolean agreedPushNotification) {
+        this.nickName = nickName;
+        this.imgUrl = imgUrl;
+        this.agreedMailNotification = agreedMailNotification;
+        this.agreedPushNotification = agreedPushNotification;
     }
 }

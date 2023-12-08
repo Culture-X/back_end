@@ -2,6 +2,7 @@ package TripAmi.backend.app.review.domain;
 
 import TripAmi.backend.app.order.domain.Order;
 import TripAmi.backend.app.util.BaseEntity;
+import TripAmi.backend.app.util.Star;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,9 +23,10 @@ public class Review {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    private Integer rating;
+    private Star star;
 
     private String content;
 
@@ -32,9 +34,9 @@ public class Review {
     private BaseEntity baseEntity;
 
     @Builder
-    public Review(Order order, Integer rating, String content) {
+    public Review(Order order, Star star, String content) {
         this.order = order;
-        this.rating = rating;
+        this.star = star;
         this.content = content;
     }
 }

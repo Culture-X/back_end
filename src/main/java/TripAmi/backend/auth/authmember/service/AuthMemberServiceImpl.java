@@ -7,6 +7,7 @@ import TripAmi.backend.auth.authmember.service.dto.PasswordPatternChecker;
 import TripAmi.backend.auth.authmember.service.dto.RefreshTokenAuth;
 import TripAmi.backend.auth.authmember.service.exception.AuthMemberNotFoundException;
 import TripAmi.backend.auth.authmember.service.exception.ConfirmNotFoundException;
+import TripAmi.backend.auth.authmember.service.exception.EmailDuplicationException;
 import TripAmi.backend.auth.jwt.domain.AuthToken;
 import TripAmi.backend.auth.jwt.service.JwtIssuer;
 import TripAmi.backend.web.api.member.request.SignupMemberRequest;
@@ -27,79 +28,76 @@ import static TripAmi.backend.auth.authmember.service.dto.ConfirmTokenDto.*;
  * 미봉책으로 AuthMember에 yourFoodId를 저장하여 해결했으나, 바람직하지 못해보임.
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthMemberServiceImpl implements AuthMemberService {
 
     private final JwtIssuer jwtIssuer;
 
     private final AuthMemberRepository authMemberRepository;
-    private final ConfirmRepository confirmRepository;
     private final PasswordHasher passwordHasher;
-    private final TokenSender tokenSender;
+    private final EmailSender tokenSender;
     private final TransactionTemplate transactionTemplate;
     private final PasswordPatternChecker passwordPatternChecker;
     private final MemberService memberService;
 
     @Override
-    public UUID join(SignupMemberRequest request) {
-        String password = request.getPassword();
-
-        // 비밀번호 유효성 검사
-        passwordPatternChecker.checkPasswordPattern(password);
-
-        String token = tokenSender.generateToken();
-        UUID memberId = transactionTemplate.execute(joinTransaction(request, token));
-
-        tokenSender.sendEmail(request.getEmail(), token);
-
-        return memberId;
+    @Transactional(readOnly = true)
+    public void checkEmailDuplication(String email) {
+        if (authMemberRepository.findByEmail(email).isPresent())
+            throw new EmailDuplicationException();
     }
-
-    private TransactionCallback<UUID> joinTransaction(SignupMemberRequest request, String token) {
-
-        return transactionStatus -> {
-            AuthMember authMember = AuthMember.builder()
-                                        .username(request.getUsername())
-                                        .raw(request.getPassword())
-                                        .hasher(passwordHasher)
-                                        .build();
-            authMemberRepository.save(authMember);
-            Confirm confirm = Confirm.builder()
-                                  .authMember(authMember)
-                                  .token(token)
-                                  .build();
-            confirmRepository.save(confirm);
-
-            return memberService.createMember(request.getUsername());
-        };
-    }
-
-    @Override
-    @Transactional
-    public void joinConfirm(ConfirmTokenRequest request) {
-        AuthMember authMember = authMemberRepository.findByUsername(request.getUsername())
-                                    .orElseThrow(AuthMemberNotFoundException::new);
-        Confirm confirm = confirmRepository.findByAuthMember(authMember).orElseThrow(
-            ConfirmNotFoundException::new);
-        authMember.verifyPassword(request.getPassword(), passwordHasher);
-        confirm.verifyToken(request.getToken());
-        authMember.joinConfirm();
-    }
-
-    // todo your food member 의 ID와 auth member id 모두 기입
-    @Override
-    public AuthToken authenticate(PasswordAuth passwordAuth) {
-        AuthMember authMember = authMemberRepository.findByUsername(passwordAuth.username())
-                                    .orElseThrow(AuthMemberNotFoundException::new);
-
-        authMember.verifyPassword(passwordAuth.password(), passwordHasher);
-        authMember.verifyConfirmState();
-
-        return jwtIssuer.issue(authMember.getTripAmiId(), authMember.getUsername());
-    }
-
-    @Override
-    public AuthToken authenticate(RefreshTokenAuth refreshTokenAuth) {
-        return jwtIssuer.renew(refreshTokenAuth.refreshToken(), refreshTokenAuth.username());
-    }
+//
+//    @Override
+//    public String join(SignupMemberRequest request) {
+//        return null;
+//    }
+//
+//    private TransactionCallback<UUID> joinTransaction(SignupMemberRequest request, String token) {
+//
+//        return transactionStatus -> {
+//            AuthMember authMember = AuthMember.builder()
+//                                        .email(request.getUsername())
+//                                        .raw(request.getPassword())
+//                                        .hasher(passwordHasher)
+//                                        .build();
+//            authMemberRepository.save(authMember);
+//            Confirm confirm = Confirm.builder()
+//                                  .authMember(authMember)
+//                                  .token(token)
+//                                  .build();
+//            confirmRepository.save(confirm);
+//
+//            return memberService.createMember();
+//        };
+//    }
+//
+//    @Override
+//    @Transactional
+//    public void joinConfirm(ConfirmTokenRequest request) {
+//        AuthMember authMember = authMemberRepository.findByUsername(request.getUsername())
+//                                    .orElseThrow(AuthMemberNotFoundException::new);
+//        Confirm confirm = confirmRepository.findByAuthMember(authMember).orElseThrow(
+//            ConfirmNotFoundException::new);
+//        authMember.verifyPassword(request.getPassword(), passwordHasher);
+//        confirm.verifyToken(request.getToken());
+//        authMember.joinConfirm();
+//    }
+//
+//    // todo your food member 의 ID와 auth member id 모두 기입
+//    @Override
+//    public AuthToken authenticate(PasswordAuth passwordAuth) {
+//        AuthMember authMember = authMemberRepository.findByUsername(passwordAuth.username())
+//                                    .orElseThrow(AuthMemberNotFoundException::new);
+//
+//        authMember.verifyPassword(passwordAuth.password(), passwordHasher);
+//        authMember.verifyConfirmState();
+//
+//        return jwtIssuer.issue(authMember.getTripAmiId(), authMember.getUsername());
+//    }
+//
+//    @Override
+//    public AuthToken authenticate(RefreshTokenAuth refreshTokenAuth) {
+//        return jwtIssuer.renew(refreshTokenAuth.refreshToken(), refreshTokenAuth.username());
+//    }
 }

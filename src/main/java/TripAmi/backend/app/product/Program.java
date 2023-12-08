@@ -21,6 +21,8 @@ public class Program extends Product {
     @OneToMany(mappedBy = "program")
     List<Spot> spots = new ArrayList<>();
 
+
+
     Integer totalPersonnel;
     @Enumerated(value = EnumType.STRING)
     ProgramTheme theme;

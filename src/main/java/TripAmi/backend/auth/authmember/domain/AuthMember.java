@@ -1,25 +1,23 @@
 package TripAmi.backend.auth.authmember.domain;
 
+import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.auth.authmember.exception.PasswordMismatchException;
-import TripAmi.backend.auth.authmember.service.exception.ConfirmStateException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Entity
 @Table(
     name = "auth_member",
     indexes = {
         @Index(
-            name = "idx__auth_member__username",
-            columnList = "username",
-            unique = true
-        ),
-        @Index(
-            name = "idx__auth_member__your_food_id",
-            columnList = "your_food_id",
+            name = "idx__auth_member__email",
+            columnList = "email",
             unique = true
         )
     }
@@ -27,39 +25,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class AuthMember {
-
     @Id
-    @Column(name = "auth_member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "auth_member_id", nullable = false)
     private Long id;
+    @Email
     @Column(nullable = false)
-    private String username;
+    private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ConfirmStatus status;
-    @Column(name = "trip_ami_id")
-    private Long tripAmiId;
+    @Embedded
+    private BaseEntity baseEntity;
 
     @Builder
-    protected AuthMember(
-        Long id,
-        String username,
+    public AuthMember(
+        String email,
         String raw,
         PasswordHasher hasher
     ) {
-        this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = hasher.hash(raw);
-        this.status = ConfirmStatus.UNAUTHORIZED;
+        this.baseEntity = new BaseEntity();
     }
 
     /**
-     * 입력받은 rawPassword를 Hasher를 통해 변환했을 때, 저장된 password와 같은 지 확인하는 메서드
+     * 패스워드 수정 시, 이전 패스워드와 동일하지 않은지 검증함
      *
-     * @param rawPassword
-     * @param hasher
+     * @param rawPassword 수정할 패스워드
+     * @param hasher      패스워드 해셔
      */
     public void verifyPassword(String rawPassword, PasswordHasher hasher) {
         if (!hasher.isMatch(rawPassword, password)) {
@@ -80,21 +73,9 @@ public class AuthMember {
     }
 
     /**
-     * 가입 승인 시 상태를 승인으로 변경
+     * 회원 탈퇴 시 상태를 deleted로 변경
      */
-    public void joinConfirm() {
-        if (this.status == ConfirmStatus.UNAUTHORIZED) {
-            this.status = ConfirmStatus.AUTHORIZED;
-        }
-    }
-
-    public void updateYourFoodId(Long tripAmiId) {
-        this.tripAmiId = tripAmiId;
-    }
-
-    public void verifyConfirmState() {
-        if (!this.status.equals(ConfirmStatus.AUTHORIZED)) {
-            throw new ConfirmStateException();
-        }
+    public void delete() {
+        baseEntity.delete();
     }
 }

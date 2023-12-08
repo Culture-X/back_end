@@ -1,7 +1,7 @@
 package TripAmi.backend.app.member.service;
 
-import java.util.UUID;
+import TripAmi.backend.app.util.Image;
 
 public interface MemberService {
-    UUID createMember(String username);
+    void createMember(String nickName, String imgUrl, Boolean agreedMailNotification, Boolean agreedPushNotification);
 }

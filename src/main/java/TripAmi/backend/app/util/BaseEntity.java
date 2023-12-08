@@ -1,5 +1,6 @@
 package TripAmi.backend.app.util;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
@@ -14,8 +15,10 @@ import java.time.LocalDateTime;
 @Getter
 public class BaseEntity {
     @CreatedDate
+    @Column(name = "created_at")
     LocalDateTime createdAt;
     @LastModifiedDate
+    @Column(name = "updated_at")
     LocalDateTime updatedAt;
     Boolean deleted;
     public void delete() {
