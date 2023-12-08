@@ -1,4 +1,4 @@
-package TripAmi.backend.app;
+package TripAmi.backend.app.util;
 
 public enum AgeRange {
 

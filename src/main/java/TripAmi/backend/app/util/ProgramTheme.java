@@ -1,10 +1,10 @@
-package TripAmi.backend.app;
+package TripAmi.backend.app.util;
 
 public enum ProgramTheme {
     ACTIVITY,
     RESTAURANT,
     TOURISM,
     PHOTO,
-    KPOP,
+    K_POP,
     SHOPPING,
 }

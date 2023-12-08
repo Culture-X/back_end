@@ -1,6 +1,6 @@
 package TripAmi.backend.app.member.domain;
 
-import TripAmi.backend.app.Language;
+import TripAmi.backend.app.util.Language;
 import TripAmi.backend.app.util.Star;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,11 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
-// 상속 구조일 필요가 있나?
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
