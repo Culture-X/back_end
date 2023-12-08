@@ -1,16 +1,17 @@
-package TripAmi.backend.app.product;
+package TripAmi.backend.app.product.domain;
 
+import TripAmi.backend.app.product.domain.Program;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "spot")
 @Getter
 public class Spot {
     @Id

@@ -1,4 +1,4 @@
-package TripAmi.backend.app.product;
+package TripAmi.backend.app.product.domain;
 
 import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
@@ -14,6 +14,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "product")
 @Getter
 public abstract class Product {
     @Id

@@ -1,5 +1,6 @@
-package TripAmi.backend.app.product;
+package TripAmi.backend.app.product.domain;
 
+import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("Program")
-@PrimaryKeyJoinColumn(name = "Program_Id")
+@DiscriminatorValue("program")
+@PrimaryKeyJoinColumn(name = "program_id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Program extends Product {
@@ -21,13 +22,14 @@ public class Program extends Product {
     @OneToMany(mappedBy = "program")
     List<Spot> spots = new ArrayList<>();
 
-
-
     Integer totalPersonnel;
+
     @Enumerated(value = EnumType.STRING)
     ProgramTheme theme;
+
     @Convert(converter = StringListConverter.class)
     List<String> keyWords;
+
     //todo address class 작성
     String location;
 

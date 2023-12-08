@@ -1,14 +1,11 @@
 package TripAmi.backend.app.order.domain;
 
-import TripAmi.backend.app.product.Product;
 import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

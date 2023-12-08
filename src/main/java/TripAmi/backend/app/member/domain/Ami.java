@@ -14,6 +14,7 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "ami")
 public class Ami {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
