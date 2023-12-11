@@ -1,13 +1,14 @@
 package TripAmi.backend.app.faq.service;
 
-import TripAmi.backend.app.faq.domain.Faq;
+import TripAmi.backend.web.api.faq.request.CreateFaqRequest;
+import TripAmi.backend.web.api.faq.response.FaqDto;
 
 import java.util.List;
 
 public interface FaqService {
-    void save(String question, String answer);
+    void save(CreateFaqRequest request);
 
-    Faq findById(Long id);
+    FaqDto findById(Long id);
 
-    List<Faq> findAll();
+    List<FaqDto> findAll();
 }

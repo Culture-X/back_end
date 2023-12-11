@@ -2,11 +2,14 @@ package TripAmi.backend.app.faq.service;
 
 import TripAmi.backend.app.faq.domain.Faq;
 import TripAmi.backend.app.faq.domain.FaqRepository;
+import TripAmi.backend.web.api.faq.request.CreateFaqRequest;
+import TripAmi.backend.web.api.faq.response.FaqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,21 +19,31 @@ public class FaqServiceImpl implements FaqService {
 
     @Override
     @Transactional
-    public void save(String question, String answer) {
+    public void save(CreateFaqRequest request) {
         Faq faq = Faq.builder()
-                      .question(question)
-                      .answer(answer)
+                      .question(request.question())
+                      .answer(request.answer())
                       .build();
         faqRepository.save(faq);
     }
 
     @Override
-    public Faq findById(Long id) {
-        return faqRepository.findById(id).orElseThrow();
+    public FaqDto findById(Long id) {
+        Faq item = faqRepository.findById(id).orElseThrow();
+        return FaqDto.builder()
+                   .question(item.getQuestion())
+                   .answer(item.getAnswer())
+                   .build();
     }
 
     @Override
-    public List<Faq> findAll() {
-        return faqRepository.findAll();
+    public List<FaqDto> findAll() {
+        List<Faq> allFaq = faqRepository.findAll();
+        return allFaq.stream()
+                   .map(item -> new FaqDto(
+                       item.getQuestion(),
+                       item.getAnswer()
+                   ))
+                   .collect(Collectors.toList());
     }
 }
