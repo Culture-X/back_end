@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Getter
-@ConfigurationProperties(prefix = "social-feed.jwt")
+@ConfigurationProperties(prefix = "trip-ami.jwt")
 public class JwtProperties {
     private final long accessTokenLifespanInMinutes;
     private final long refreshTokenLifespanInMinutes;
@@ -18,7 +18,7 @@ public class JwtProperties {
         @DefaultValue("1800") long accessTokenLifespanInMinutes,
         @DefaultValue("180000") long refreshTokenLifespanInMinutes,
         @DefaultValue("self") String issuer,
-        @DefaultValue("BeforeSpring") String subject
+        @DefaultValue("TripAmi") String subject
     ) {
         this.accessTokenLifespanInMinutes = accessTokenLifespanInMinutes;
         this.refreshTokenLifespanInMinutes = refreshTokenLifespanInMinutes;

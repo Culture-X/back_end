@@ -36,8 +36,4 @@ public abstract class Product {
         this.content = content;
         this.price = price;
     }
-
-//    public void delete() {
-//        baseEntity.delete();
-//    }
 }
