@@ -6,12 +6,13 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record ProgramDto(
+public record ProgramDetailDto(
     String title,
     List<String> images,
     String content,
     Integer price,
     Long amiId,
     ProgramTheme theme
+
 ) {
 }

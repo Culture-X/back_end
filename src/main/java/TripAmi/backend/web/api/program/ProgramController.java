@@ -2,13 +2,11 @@ package TripAmi.backend.web.api.program;
 
 
 import TripAmi.backend.app.product.ProgramTheme;
+import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.service.ProgramService;
 import TripAmi.backend.web.api.common.GenericResponse;
 import TripAmi.backend.web.api.program.request.CreateProgramRequest;
-import TripAmi.backend.web.api.program.response.ProgramDto;
-import TripAmi.backend.web.api.program.response.ProgramListResponse;
-import TripAmi.backend.web.api.program.response.ThemeDto;
-import TripAmi.backend.web.api.program.response.ThemeListResponse;
+import TripAmi.backend.web.api.program.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +27,8 @@ public class ProgramController {
      * @param request 생성 DTO (CreateProgramRequest)
      */
     @PostMapping
-    public void createProgram(@RequestBody CreateProgramRequest request) {
-        programService.createProgram(request);
+    public void save(@RequestBody CreateProgramRequest request) {
+        programService.save(request);
     }
 
     /**
@@ -39,8 +37,44 @@ public class ProgramController {
      *
      * @return themes
      */
+
+    @GetMapping("/{id}")
+    public GenericResponse<ProgramDto> findById(@PathVariable Long id) {
+        Program program = programService.findById(id);
+        ProgramDto response = ProgramDto.builder()
+                                  .title(program.getTitle())
+                                  .amiId(program.getAmiId())
+                                  .content(program.getContent())
+                                  .images(program.getImages())
+                                  .price(program.getPrice())
+                                  .theme(program.getTheme())
+                                  .build();
+        return GenericResponse.ok(response);
+    }
+
+    /**
+     * ToDo 현재 일반 프로그램 조회와 디테일 조회의 차이가 없음
+     *
+     * @param id program id
+     * @return 해당하는 id의 프로그램 정보
+     */
+    @GetMapping("/{id}/detail")
+    public GenericResponse<ProgramDetailDto> findProgramDetail(@PathVariable Long id) {
+        Program program = programService.findDetailById(id);
+        ProgramDetailDto response = ProgramDetailDto.builder()
+                                        .title(program.getTitle())
+                                        .amiId(program.getAmiId())
+                                        .content(program.getContent())
+                                        .images(program.getImages())
+                                        .price(program.getPrice())
+                                        .theme(program.getTheme())
+                                        .build();
+
+        return GenericResponse.ok(response);
+    }
+
     @GetMapping("/themes")
-    public GenericResponse<ThemeListResponse> getThemes() {
+    public GenericResponse<ThemeListResponse> findThemes() {
         List<ThemeDto> result = Arrays.stream(ProgramTheme.values())
                                     .map(theme -> new ThemeDto(theme.toString()))
                                     .collect(Collectors.toList());
@@ -57,16 +91,17 @@ public class ProgramController {
      * @return 해당하는 Theme에 포함된 Program
      */
     @GetMapping("/{theme}")
-    public GenericResponse<ProgramListResponse> getProgramByTheme(@PathVariable String theme) {
+    public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
         ProgramTheme programTheme = ProgramTheme.valueOf(theme.toUpperCase());
         List<ProgramDto> result = programService.findByTheme(programTheme);
         ProgramListResponse response = new ProgramListResponse(result);
         return GenericResponse.ok(response);
     }
+
+
     /**
      * ToDo
      * 기간 별 조회
-     * 상세 조회
      * FAQ 생성
      * FAQ 목록 조회
      * 잔여 인원 조회

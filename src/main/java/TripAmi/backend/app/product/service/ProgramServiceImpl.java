@@ -14,13 +14,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
 
     @Override
-    public void createProgram(CreateProgramRequest request) {
+    @Transactional
+    public void save(CreateProgramRequest request) {
         Program program = Program.builder()
                               .title(request.title())
                               .images(request.images())
@@ -48,5 +49,10 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<ProgramDto> findByTheme(ProgramTheme theme) {
         return programRepository.findByTheme(theme);
+    }
+
+    @Override
+    public Program findDetailById(Long id) {
+        return programRepository.findById(id).orElseThrow();
     }
 }

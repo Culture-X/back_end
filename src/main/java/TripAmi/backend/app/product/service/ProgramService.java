@@ -8,11 +8,13 @@ import TripAmi.backend.web.api.program.response.ProgramDto;
 import java.util.List;
 
 public interface ProgramService {
-    void createProgram(CreateProgramRequest request);
+    void save(CreateProgramRequest request);
 
     Program findById(Long id);
 
     List<Program> findByTitle(String title);
 
     List<ProgramDto> findByTheme(ProgramTheme theme);
+
+    Program findDetailById(Long id);
 }
