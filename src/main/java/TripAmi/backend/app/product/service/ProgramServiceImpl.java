@@ -1,9 +1,12 @@
 package TripAmi.backend.app.product.service;
 
+import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
 import TripAmi.backend.web.api.program.request.CreateProgramRequest;
+import TripAmi.backend.web.api.program.response.ProgramDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +43,10 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<Program> findByTitle(String title) {
         return programRepository.findByTitle(title);
+    }
+
+    @Override
+    public List<ProgramDto> findByTheme(ProgramTheme theme) {
+        return programRepository.findByTheme(theme);
     }
 }
