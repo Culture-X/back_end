@@ -17,30 +17,32 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Program extends Product {
+    @Column(name = "ami_id")
     Long amiId;
 
     @OneToMany(mappedBy = "program")
     List<Spot> spots = new ArrayList<>();
 
+    @Column(name = "total_people")
     Integer totalPersonnel;
 
     @Enumerated(value = EnumType.STRING)
     ProgramTheme theme;
 
     @Convert(converter = StringListConverter.class)
-    List<String> keyWords;
+    List<String> keywords;
 
     //todo address class 작성
     String location;
 
     @Builder
-    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPersonnel, ProgramTheme theme, List<String> keyWords, String location) {
+    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPersonnel, ProgramTheme theme, List<String> keywords, String location) {
         super(title, images, content, price);
         this.amiId = amiId;
         this.spots.addAll(spots);
         this.totalPersonnel = totalPersonnel;
         this.theme = theme;
-        this.keyWords = keyWords;
+        this.keywords = keywords;
         this.location = location;
     }
 }

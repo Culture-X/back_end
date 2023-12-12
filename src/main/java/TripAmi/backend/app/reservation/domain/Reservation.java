@@ -23,10 +23,10 @@ public class Reservation {
     @JoinColumn(name = "program_id")
     Program program;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fixed_date")
     LocalDateTime fixedDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fixed_people")
     Integer fixedPeople;
 
     @ElementCollection
