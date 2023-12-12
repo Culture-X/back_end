@@ -1,6 +1,8 @@
 package TripAmi.backend.app.product.service;
 
 import TripAmi.backend.app.product.ProgramTheme;
+import TripAmi.backend.app.product.domain.OpenDay;
+import TripAmi.backend.app.product.domain.OpenDayRepository;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
 import TripAmi.backend.web.api.program.request.CreateProgramRequest;
@@ -18,6 +20,8 @@ import java.util.List;
 public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
+
+    private final OpenDayRepository openDayRepository;
 
     @Override
     @Transactional
@@ -54,5 +58,10 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public Program findDetailById(Long id) {
         return programRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<OpenDay> findFixedDays(Long programId) {
+        return openDayRepository.findByProgramId(programId);
     }
 }

@@ -84,11 +84,11 @@ public class ProgramController {
     }
 
     /**
-     * 파람으로 던져지는 Theme에 해당하는 프로그램들을 리턴해줌
-     * 없는 Theme 던져지면 Exception
+     * Parameter로 받은 Theme에 해당하는 프로그램들을 조회
+     * 없는 Theme를 받으면 Exception
      *
-     * @param theme 테마 (String)
-     * @return 해당하는 Theme에 포함된 Program
+     * @param theme 테마이름 (String)
+     * @return 해당하는 Theme에 포함된 Program(s)
      */
     @GetMapping("/{theme}")
     public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
@@ -98,12 +98,16 @@ public class ProgramController {
         return GenericResponse.ok(response);
     }
 
+    @GetMapping("/{id}/checkRemaining")
+    public GenericResponse<Integer> getRemainingCount(@PathVariable Long id) {
+        Program program = programService.findById(id);
+
+        // ToDo 전체 인원에서 조인한 인원 빼줘야됨
+        return GenericResponse.ok(program.getTotalPersonnel());
+    }
 
     /**
      * ToDo
      * 기간 별 조회
-     * FAQ 생성
-     * FAQ 목록 조회
-     * 잔여 인원 조회
      */
 }

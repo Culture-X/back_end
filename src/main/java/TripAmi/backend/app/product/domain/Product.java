@@ -1,6 +1,5 @@
 package TripAmi.backend.app.product.domain;
 
-import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

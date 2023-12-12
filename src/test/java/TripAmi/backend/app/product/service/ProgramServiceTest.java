@@ -45,7 +45,7 @@ public class ProgramServiceTest {
         );
 
 //        // Act
-        programService.createProgram(request);
+        programService.save(request);
 //
 //        // Assert
         Assertions.assertNotNull(programService.findByTitle("Program Title")); // Correct title
