@@ -93,12 +93,22 @@ public class ProgramController {
     @GetMapping("/{theme}")
     public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
         ProgramTheme programTheme = ProgramTheme.valueOf(theme.toUpperCase());
-        List<ProgramDto> result = programService.findByTheme(programTheme);
+        List<ProgramDto> result = programService.findByTheme(programTheme).stream()
+                                      .map(item -> ProgramDto.builder()
+                                                       .title(item.getTitle())
+                                                       .theme(item.getTheme())
+                                                       .price(item.getPrice())
+                                                       .amiId(item.getAmiId())
+                                                       .content(item.getContent())
+                                                       .images(item.getImages())
+                                                       .build()
+                                      ).collect(Collectors.toList());
+
         ProgramListResponse response = new ProgramListResponse(result);
         return GenericResponse.ok(response);
     }
 
-    @GetMapping("/{id}/checkRemaining")
+    @GetMapping("/{id}/remain")
     public GenericResponse<Integer> getRemainingCount(@PathVariable Long id) {
         Program program = programService.findById(id);
 

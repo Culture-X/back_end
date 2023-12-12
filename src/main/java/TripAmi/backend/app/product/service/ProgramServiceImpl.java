@@ -1,14 +1,10 @@
 package TripAmi.backend.app.product.service;
 
 import TripAmi.backend.app.product.ProgramTheme;
-import TripAmi.backend.app.product.domain.OpenDay;
-import TripAmi.backend.app.product.domain.OpenDayRepository;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
 import TripAmi.backend.web.api.program.request.CreateProgramRequest;
-import TripAmi.backend.web.api.program.response.ProgramDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +16,6 @@ import java.util.List;
 public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
-
-    private final OpenDayRepository openDayRepository;
 
     @Override
     @Transactional
@@ -51,7 +45,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public List<ProgramDto> findByTheme(ProgramTheme theme) {
+    public List<Program> findByTheme(ProgramTheme theme) {
         return programRepository.findByTheme(theme);
     }
 
@@ -59,9 +53,5 @@ public class ProgramServiceImpl implements ProgramService {
     public Program findDetailById(Long id) {
         return programRepository.findById(id).orElseThrow();
     }
-
-    @Override
-    public List<OpenDay> findFixedDays(Long programId) {
-        return openDayRepository.findByProgramId(programId);
-    }
+    
 }

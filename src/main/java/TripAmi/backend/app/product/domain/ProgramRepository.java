@@ -1,7 +1,6 @@
 package TripAmi.backend.app.product.domain;
 
 import TripAmi.backend.app.product.ProgramTheme;
-import TripAmi.backend.web.api.program.response.ProgramDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,5 +13,5 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     List<Program> findByTitle(String title);
 
     @Query("SELECT p FROM Program p WHERE p.theme = :theme")
-    List<ProgramDto> findByTheme(@Param("theme") ProgramTheme theme);
+    List<Program> findByTheme(@Param("theme") ProgramTheme theme);
 }
