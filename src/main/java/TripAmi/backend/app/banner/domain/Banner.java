@@ -28,10 +28,22 @@ public class Banner {
     @Column(nullable = false, name = "create_at")
     private LocalDateTime createdAt;
 
+    @Column(nullable = false, name = "open_status")
+    private Boolean isOpened;
+
     @Builder
-    public Banner(String imgUrl, String title, LocalDateTime createdAt) {
+    public Banner(String imgUrl, String title) {
         this.imgUrl = imgUrl;
         this.title = title;
-        this.createdAt = createdAt;
+        this.isOpened = true;
+    }
+
+    public void update(String title, String imgUrl) {
+        this.title = title;
+        this.imgUrl = imgUrl;
+    }
+
+    public void delete() {
+        this.isOpened = false;
     }
 }
