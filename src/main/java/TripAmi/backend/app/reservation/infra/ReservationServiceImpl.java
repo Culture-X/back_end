@@ -1,7 +1,8 @@
-package TripAmi.backend.app.reservation.service;
+package TripAmi.backend.app.reservation.infra;
 
 import TripAmi.backend.app.reservation.domain.Reservation;
 import TripAmi.backend.app.reservation.domain.ReservationRepository;
+import TripAmi.backend.app.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,9 @@
-package TripAmi.backend.app.product.service;
+package TripAmi.backend.app.product.infra;
 
 import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
+import TripAmi.backend.app.product.service.ProgramService;
 import TripAmi.backend.web.api.program.request.CreateProgramRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ProgramServiceImpl implements ProgramService {
                               .price(request.price())
                               .totalPersonnel(request.totalPersonnel())
                               .theme(request.theme())
-                              .keyWords(request.keyWords())
+                              .keywords(request.keyWords())
                               .spots(request.spots())
                               .location(request.location())
                               .build();
@@ -53,5 +54,5 @@ public class ProgramServiceImpl implements ProgramService {
     public Program findDetailById(Long id) {
         return programRepository.findById(id).orElseThrow();
     }
-    
+
 }
