@@ -7,11 +7,11 @@ import TripAmi.backend.web.api.faq.response.FaqDto;
 import java.util.List;
 
 public interface FaqService {
-    void save(FaqCreateRequest request);
+    void save(String question, String answer);
 
     FaqDto findById(Long id);
 
     List<FaqDto> findAll();
 
-    FaqDto updateFaq(Long faqId, FaqUpdateRequest request);
+    FaqDto updateFaq(Long faqId, String question, String answer);
 }
