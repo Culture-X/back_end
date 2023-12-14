@@ -1,5 +1,6 @@
 package TripAmi.backend.app.banner.domain;
 
+import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,18 +25,13 @@ public class Banner {
 
     private String title;
 
-    @CreatedDate
-    @Column(nullable = false, name = "create_at")
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false, name = "open_status")
-    private Boolean isOpened;
+    @Embedded
+    private BaseEntity baseEntity = new BaseEntity();
 
     @Builder
     public Banner(String imgUrl, String title) {
         this.imgUrl = imgUrl;
         this.title = title;
-        this.isOpened = true;
     }
 
     public void update(String title, String imgUrl) {
@@ -44,6 +40,6 @@ public class Banner {
     }
 
     public void delete() {
-        this.isOpened = false;
+        this.baseEntity.delete();
     }
 }
