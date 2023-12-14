@@ -31,12 +31,7 @@ public class ProgramController {
         programService.save(request);
     }
 
-    /**
-     * 현재 Program들이 가지고 있는 Theme 전체 검색
-     * 데이터가 있는 Theme만 불러와짐
-     *
-     * @return themes
-     */
+
 
     @GetMapping("/{id}")
     public GenericResponse<ProgramDto> findById(@PathVariable Long id) {
@@ -72,6 +67,13 @@ public class ProgramController {
 
         return GenericResponse.ok(response);
     }
+
+    /**
+     * 현재 Program들이 가지고 있는 Theme 전체 검색
+     * 데이터가 있는 Theme만 불러와짐
+     *
+     * @return themes
+     */
 
     @GetMapping("/themes")
     public GenericResponse<ThemeListResponse> findThemes() {
