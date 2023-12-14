@@ -2,7 +2,8 @@ package TripAmi.backend.web.api.faq;
 
 import TripAmi.backend.app.faq.service.FaqService;
 import TripAmi.backend.web.api.common.GenericResponse;
-import TripAmi.backend.web.api.faq.request.CreateFaqRequest;
+import TripAmi.backend.web.api.faq.request.FaqCreateRequest;
+import TripAmi.backend.web.api.faq.request.FaqUpdateRequest;
 import TripAmi.backend.web.api.faq.response.FaqDto;
 import TripAmi.backend.web.api.faq.response.FaqListResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class FaqController {
     private final FaqService faqService;
 
     @PostMapping
-    public void save(@RequestBody CreateFaqRequest request) {
+    public void save(@RequestBody FaqCreateRequest request) {
         faqService.save(request);
     }
 
@@ -33,5 +34,10 @@ public class FaqController {
     @GetMapping("/{id}")
     public GenericResponse<FaqDto> findById(@PathVariable Long id) {
         return GenericResponse.ok(faqService.findById(id));
+    }
+
+    @PostMapping("/{id}")
+    public GenericResponse<FaqDto> updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
+        return GenericResponse.ok(faqService.updateFaq(id, request));
     }
 }

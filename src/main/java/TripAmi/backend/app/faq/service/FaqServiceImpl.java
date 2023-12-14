@@ -2,7 +2,8 @@ package TripAmi.backend.app.faq.service;
 
 import TripAmi.backend.app.faq.domain.Faq;
 import TripAmi.backend.app.faq.domain.FaqRepository;
-import TripAmi.backend.web.api.faq.request.CreateFaqRequest;
+import TripAmi.backend.web.api.faq.request.FaqCreateRequest;
+import TripAmi.backend.web.api.faq.request.FaqUpdateRequest;
 import TripAmi.backend.web.api.faq.response.FaqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class FaqServiceImpl implements FaqService {
 
     @Override
     @Transactional
-    public void save(CreateFaqRequest request) {
+    public void save(FaqCreateRequest request) {
         Faq faq = Faq.builder()
                       .question(request.question())
                       .answer(request.answer())
@@ -45,5 +46,16 @@ public class FaqServiceImpl implements FaqService {
                        item.getAnswer()
                    ))
                    .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public FaqDto updateFaq(Long faqId, FaqUpdateRequest request) {
+        Faq faq = faqRepository.findById(faqId).orElseThrow();
+        faq.update(request.question(), request.answer());
+        return FaqDto.builder()
+                   .question(request.question())
+                   .answer(request.answer())
+                   .build();
     }
 }

@@ -1,6 +1,6 @@
 package TripAmi.backend.web.api.faq.request;
 
-public record CreateFaqRequest(
+public record FaqCreateRequest(
     String question,
     String answer
 ) {
