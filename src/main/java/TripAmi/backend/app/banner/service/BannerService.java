@@ -9,7 +9,7 @@ public interface BannerService {
 
     BannerDto findById(Long id);
 
-    List<BannerDto> findAll();
+    List<BannerDto> findBanners();
 
     BannerDto update(Long id, String title, String imgUrl);
 

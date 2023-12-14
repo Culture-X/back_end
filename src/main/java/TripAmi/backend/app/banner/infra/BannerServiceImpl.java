@@ -34,7 +34,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public List<BannerDto> findAll() {
+    public List<BannerDto> findBanners() {
         List<Banner> items = bannerRepository.findAll();
         return items.stream()
                    .map(item -> new BannerDto(

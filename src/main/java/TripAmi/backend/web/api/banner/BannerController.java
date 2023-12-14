@@ -34,7 +34,7 @@ public class BannerController {
 
     @GetMapping
     public GenericResponse<BannerListResponse> findAll() {
-        List<BannerDto> banners = bannerService.findAll();
+        List<BannerDto> banners = bannerService.findBanners();
         BannerListResponse response = BannerListResponse.builder()
                                           .banners(banners)
                                           .build();
