@@ -24,7 +24,7 @@ public class FaqController {
 
     @GetMapping
     public GenericResponse<FaqListResponse> findAll() {
-        List<FaqDto> result = faqService.findAll();
+        List<FaqDto> result = faqService.findFaqs();
         FaqListResponse response = FaqListResponse.builder()
                                        .faqs(result)
                                        .build();
@@ -38,6 +38,6 @@ public class FaqController {
 
     @PostMapping("/{id}")
     public GenericResponse<FaqDto> updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
-        return GenericResponse.ok(faqService.updateFaq(id, request.question(), request.answer()));
+        return GenericResponse.ok(faqService.update(id, request.question(), request.answer()));
     }
 }

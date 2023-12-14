@@ -2,6 +2,7 @@ package TripAmi.backend.app.faq.infra;
 
 import TripAmi.backend.app.faq.domain.Faq;
 import TripAmi.backend.app.faq.domain.FaqRepository;
+import TripAmi.backend.app.faq.exception.FaqNotFound;
 import TripAmi.backend.app.faq.service.FaqService;
 import TripAmi.backend.web.api.faq.response.FaqDto;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class FaqServiceImpl implements FaqService {
 
     @Override
     public FaqDto findById(Long id) {
-        Faq item = faqRepository.findById(id).orElseThrow();
+        Faq item = faqRepository.findById(id).orElseThrow(FaqNotFound::new);
         return FaqDto.builder()
                    .question(item.getQuestion())
                    .answer(item.getAnswer())
@@ -37,7 +38,7 @@ public class FaqServiceImpl implements FaqService {
     }
 
     @Override
-    public List<FaqDto> findAll() {
+    public List<FaqDto> findFaqs() {
         List<Faq> allFaq = faqRepository.findAll();
         return allFaq.stream()
                    .map(item -> new FaqDto(
@@ -49,8 +50,8 @@ public class FaqServiceImpl implements FaqService {
 
     @Override
     @Transactional
-    public FaqDto updateFaq(Long faqId, String question, String answer) {
-        Faq faq = faqRepository.findById(faqId).orElseThrow();
+    public FaqDto update(Long faqId, String question, String answer) {
+        Faq faq = faqRepository.findById(faqId).orElseThrow(FaqNotFound::new);
         faq.update(question, answer);
         return FaqDto.builder()
                    .question(question)

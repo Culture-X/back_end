@@ -11,7 +11,7 @@ public interface FaqService {
 
     FaqDto findById(Long id);
 
-    List<FaqDto> findAll();
+    List<FaqDto> findFaqs();
 
-    FaqDto updateFaq(Long faqId, String question, String answer);
+    FaqDto update(Long faqId, String question, String answer);
 }
