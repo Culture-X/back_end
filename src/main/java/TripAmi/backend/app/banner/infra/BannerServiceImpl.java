@@ -2,6 +2,7 @@ package TripAmi.backend.app.banner.infra;
 
 import TripAmi.backend.app.banner.domain.Banner;
 import TripAmi.backend.app.banner.domain.BannerRepository;
+import TripAmi.backend.app.banner.exception.BannerNotFound;
 import TripAmi.backend.app.banner.service.BannerService;
 import TripAmi.backend.web.api.banner.response.BannerDto;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public BannerDto findById(Long id) {
-        Banner findOne = bannerRepository.findById(id).orElseThrow();
+        Banner findOne = bannerRepository.findById(id).orElseThrow(BannerNotFound::new);
         return new BannerDto(id, findOne.getTitle(), findOne.getImgUrl());
     }
 
@@ -46,7 +47,7 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public BannerDto update(Long id, String title, String imgUrl) {
-        Banner banner = bannerRepository.findById(id).orElseThrow();
+        Banner banner = bannerRepository.findById(id).orElseThrow(BannerNotFound::new);
         banner.update(title, imgUrl);
         return BannerDto.builder()
                    .title(title)
@@ -56,7 +57,7 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public void delete(Long id) {
-        Banner banner = bannerRepository.findById(id).orElseThrow();
+        Banner banner = bannerRepository.findById(id).orElseThrow(BannerNotFound::new);
         banner.delete();
     }
 
