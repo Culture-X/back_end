@@ -19,7 +19,7 @@ public class FaqController {
 
     @PostMapping
     public void save(@RequestBody FaqCreateRequest request) {
-        faqService.save(request);
+        faqService.save(request.question(), request.answer());
     }
 
     @GetMapping
@@ -38,6 +38,6 @@ public class FaqController {
 
     @PostMapping("/{id}")
     public GenericResponse<FaqDto> updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
-        return GenericResponse.ok(faqService.updateFaq(id, request));
+        return GenericResponse.ok(faqService.updateFaq(id, request.question(), request.answer()));
     }
 }
