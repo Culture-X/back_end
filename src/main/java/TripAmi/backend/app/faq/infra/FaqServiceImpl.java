@@ -58,4 +58,10 @@ public class FaqServiceImpl implements FaqService {
                    .answer(answer)
                    .build();
     }
+
+    @Override
+    public void delete(Long id) {
+        Faq faq = faqRepository.findById(id).orElseThrow(FaqNotFound::new);
+        faq.delete();
+    }
 }

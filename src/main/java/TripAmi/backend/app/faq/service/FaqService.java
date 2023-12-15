@@ -14,4 +14,6 @@ public interface FaqService {
     List<FaqDto> findFaqs();
 
     FaqDto update(Long faqId, String question, String answer);
+
+    void delete(Long id);
 }

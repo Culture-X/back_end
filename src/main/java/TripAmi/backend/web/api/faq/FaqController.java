@@ -6,6 +6,7 @@ import TripAmi.backend.web.api.faq.request.FaqCreateRequest;
 import TripAmi.backend.web.api.faq.request.FaqUpdateRequest;
 import TripAmi.backend.web.api.faq.response.FaqDto;
 import TripAmi.backend.web.api.faq.response.FaqListResponse;
+import TripAmi.backend.web.api.response.EmptyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,11 @@ public class FaqController {
     @PostMapping("/{id}")
     public GenericResponse<FaqDto> updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
         return GenericResponse.ok(faqService.update(id, request.question(), request.answer()));
+    }
+
+    @DeleteMapping("/{id}")
+    public GenericResponse<EmptyResponse> delete(@PathVariable Long id) {
+        faqService.delete(id);
+        return GenericResponse.ok();
     }
 }

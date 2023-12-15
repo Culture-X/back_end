@@ -1,5 +1,6 @@
 package TripAmi.backend.app.faq.domain;
 
+import TripAmi.backend.app.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,6 +21,9 @@ public class Faq {
 
     private String answer;
 
+    @Embedded
+    private BaseEntity baseEntity = new BaseEntity();
+
     @Builder
     public Faq(String question, String answer) {
         this.question = question;
@@ -29,5 +33,9 @@ public class Faq {
     public void update(String question, String answer) {
         this.question = question;
         this.answer = answer;
+    }
+
+    public void delete() {
+        this.baseEntity.delete();
     }
 }
