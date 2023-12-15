@@ -115,7 +115,7 @@ public class ProgramController {
         Program program = programService.findById(id);
 
         // ToDo 전체 인원에서 조인한 인원 빼줘야됨
-        return GenericResponse.ok(program.getTotalPersonnel());
+        return GenericResponse.ok(program.getTotalPeople());
     }
 
     /**

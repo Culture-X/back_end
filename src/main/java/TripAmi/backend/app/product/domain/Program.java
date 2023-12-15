@@ -24,7 +24,7 @@ public class Program extends Product {
     List<Spot> spots = new ArrayList<>();
 
     @Column(name = "total_people")
-    Integer totalPersonnel;
+    Integer totalPeople;
 
     @Enumerated(value = EnumType.STRING)
     ProgramTheme theme;
@@ -36,11 +36,11 @@ public class Program extends Product {
     String location;
 
     @Builder
-    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPersonnel, ProgramTheme theme, List<String> keywords, String location) {
+    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location) {
         super(title, images, content, price);
         this.amiId = amiId;
         this.spots.addAll(spots);
-        this.totalPersonnel = totalPersonnel;
+        this.totalPeople = totalPeople;
         this.theme = theme;
         this.keywords = keywords;
         this.location = location;
