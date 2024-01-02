@@ -38,7 +38,7 @@ public class FaqController {
     }
 
     @PostMapping("/{id}")
-    public GenericResponse<FaqDto> updateFaq(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
+    public GenericResponse<FaqDto> update(@PathVariable Long id, @RequestBody FaqUpdateRequest request) {
         return GenericResponse.ok(faqService.update(id, request.question(), request.answer()));
     }
 
