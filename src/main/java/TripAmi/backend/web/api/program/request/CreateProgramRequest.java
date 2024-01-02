@@ -12,7 +12,7 @@ public record CreateProgramRequest(
     String profileImgUrl,
     List<String> images,
     Integer price,
-    Integer totalPersonnel,
+    Integer totalPeople,
     ProgramTheme theme,
     List<String> keyWords,
     List<Spot> spots,

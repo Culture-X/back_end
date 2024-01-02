@@ -26,7 +26,7 @@ public class ProgramServiceImpl implements ProgramService {
                               .images(request.images())
                               .content(request.content())
                               .price(request.price())
-                              .totalPersonnel(request.totalPersonnel())
+                              .totalPeople(request.totalPeople())
                               .theme(request.theme())
                               .keywords(request.keyWords())
                               .spots(request.spots())

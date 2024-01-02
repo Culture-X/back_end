@@ -1,9 +1,11 @@
 package TripAmi.backend.app.reservation.domain;
 
-import TripAmi.backend.app.member.domain.Member;
 import TripAmi.backend.app.product.domain.Program;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class Reservation {
 
     @SneakyThrows
     public void joinPerson(Long personId) {
-        if (this.fixedPeople < program.getTotalPersonnel())
+        if (this.fixedPeople < program.getTotalPeople())
             fixedPeople++;
         else
             throw new RuntimeException("정원 초과되었습니다.");
