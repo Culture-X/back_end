@@ -1,6 +1,5 @@
 package TripAmi.backend.app.product.domain;
 
-import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,8 +35,4 @@ public abstract class Product {
         this.content = content;
         this.price = price;
     }
-
-//    public void delete() {
-//        baseEntity.delete();
-//    }
 }

@@ -1,6 +1,5 @@
 package TripAmi.backend.app.product.domain;
 
-import TripAmi.backend.app.product.domain.Program;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
