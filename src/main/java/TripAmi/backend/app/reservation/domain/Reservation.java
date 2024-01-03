@@ -1,7 +1,7 @@
 package TripAmi.backend.app.reservation.domain;
 
-import TripAmi.backend.app.member.domain.Member;
-import jakarta.persistence.*;
+import TripAmi.backend.app.member.domain.Traveler;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,10 +21,10 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Traveler traveler;
 
     @Builder
-    public Reservation(Member member) {
-        this.member = member;
+    public Reservation(Traveler traveler) {
+        this.traveler = traveler;
     }
 }

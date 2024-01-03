@@ -1,13 +1,10 @@
 package TripAmi.backend.web.api.auth.requset;
 
-import jakarta.validation.constraints.Email;
-import lombok.Builder;
+import javax.validation.constraints.Email;
+
+import java.time.LocalDateTime;
 
 public record AuthenticateEmailRequest(
-    @Email(message = "이메일 형식이 올바르지 않습니다.") String email,
-    String mailForm
+    @Email(message = "이메일 형식이 올바르지 않습니다.") String email
 ) {
-    @Builder
-    public AuthenticateEmailRequest {
-    }
 }

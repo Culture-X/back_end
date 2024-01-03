@@ -1,15 +1,19 @@
 package TripAmi.backend.auth.authmember.domain;
 
+import TripAmi.backend.app.member.domain.Ami;
+import TripAmi.backend.app.member.domain.Traveler;
 import TripAmi.backend.app.util.BaseEntity;
-import TripAmi.backend.auth.authmember.exception.PasswordMismatchException;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import TripAmi.backend.auth.authmember.infra.RolesConverter;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(
@@ -33,7 +37,23 @@ public class AuthMember {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
+    private String nickname;
+    @Column(nullable = false)
     private String password;
+    private String imgUrl;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "traveler_id")
+    private Traveler traveler;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ami_id")
+    private Ami ami;
+    @Convert(converter = RolesConverter.class)
+    private Set<Role> roles = new TreeSet<>();
+    @Embedded
+    private Condition condition;
+    private String refreshToken;
+    @Enumerated(value = EnumType.STRING)
+    private MemberStatus status;
     @Embedded
     private BaseEntity baseEntity;
 
@@ -41,22 +61,47 @@ public class AuthMember {
     public AuthMember(
         String email,
         String raw,
-        PasswordHasher hasher
+        String nickname,
+        Role role,
+        Traveler traveler,
+        Ami ami,
+        Boolean agreedMarketing,
+        String refreshToken,
+        PasswordEncoder passwordEncoder
     ) {
         this.email = email;
-        this.password = hasher.hash(raw);
+        this.password = passwordEncoder.encode(raw);
+        this.nickname = nickname;
+        this.condition = new Condition(agreedMarketing);
+        this.refreshToken = refreshToken;
+        this.status = MemberStatus.ACTIVE;
+        addRole(role);
+        updateMember(traveler, ami);
         this.baseEntity = new BaseEntity();
     }
 
-    /**
-     * 패스워드 수정 시, 이전 패스워드와 동일하지 않은지 검증함
-     *
-     * @param rawPassword 수정할 패스워드
-     * @param hasher      패스워드 해셔
-     */
-    public void verifyPassword(String rawPassword, PasswordHasher hasher) {
-        if (!hasher.isMatch(rawPassword, password)) {
-            throw new PasswordMismatchException();
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    private void updateMember(Traveler traveler, Ami ami) {
+        this.traveler = traveler;
+        this.ami = ami;
+        traveler.setAuthMember(this);
+        ami.setAuthMember(this);
+    }
+
+    public void switchRole(Role role) {
+        switch (role) {
+            case ROLE_AMI: {
+                roles.remove(Role.ROLE_TRAVELER);
+                roles.add(Role.ROLE_AMI);
+                break;
+            }
+            case ROLE_TRAVELER: {
+                roles.remove(Role.ROLE_AMI);
+                roles.add(Role.ROLE_TRAVELER);
+            }
         }
     }
 
@@ -64,18 +109,36 @@ public class AuthMember {
      * 입력받은 비밀번호의 유효성을 검사한 후에 올바르면 업데이트하는 메서드
      *
      * @param rawPassword
-     * @param hasher
+     * @param passwordEncoder
      */
-    public void updatePassword(String rawPassword, PasswordValidator validator,
-                               PasswordHasher hasher) {
-        validator.validate(this, rawPassword, hasher);
-        this.password = hasher.hash(rawPassword);
+    public void updatePassword(String rawPassword,
+                               PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(rawPassword);
     }
 
     /**
      * 회원 탈퇴 시 상태를 deleted로 변경
      */
     public void delete() {
+        this.status = MemberStatus.WITHDRAWAL;
         baseEntity.delete();
     }
+
+    public void updateStatus(MemberStatus status) {
+        if (!this.baseEntity.getDeleted())
+            this.status = status;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateAgreedMarketing(Boolean agreed) {
+        this.condition.updateAgreedMarketing(agreed);
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }
