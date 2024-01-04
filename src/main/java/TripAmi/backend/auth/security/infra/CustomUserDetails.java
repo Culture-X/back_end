@@ -2,6 +2,7 @@ package TripAmi.backend.auth.security.infra;
 
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.Role;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,8 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class CustomUserDetails extends AuthMember implements UserDetails {
+@Getter
+public class CustomUserDetails implements UserDetails {
     private Long id;
+
     private String email;
     private Set<Role> roles = new TreeSet<>();
     private String password;
@@ -59,6 +62,11 @@ public class CustomUserDetails extends AuthMember implements UserDetails {
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return this.createAuthorities(roles);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

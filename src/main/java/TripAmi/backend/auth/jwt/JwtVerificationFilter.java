@@ -23,8 +23,8 @@ import java.util.List;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL =
-        List.of("/api/v1/login",
-            "/api/v1/");
+        List.of("/api/v1/join/email",
+            "/api/v1/login");
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
@@ -33,6 +33,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        log.info("JwtVerificationFilter.doFilterInternal");
         try {
             String accessToken = jwtProvider.resolveAccessToken(request);
             if (StringUtils.hasText(accessToken) && doNotLogout(accessToken)

@@ -51,6 +51,7 @@ public class AuthCodeServiceImpl implements AuthCodeService {
     }
 
     @Override
+    @Transactional
     public void confirm(String email, String inputCode, LocalDateTime inputTime) {
         AuthCode authCode = authCodeRepository.findAuthCodeByEmail(email).orElseThrow(EmailNotFoundException::new);
         authCode.validateInputTime(inputTime);

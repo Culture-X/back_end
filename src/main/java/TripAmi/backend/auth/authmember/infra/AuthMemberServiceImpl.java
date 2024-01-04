@@ -122,13 +122,15 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     public LoginDto login(String email, String password) {
         AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
         if (!passwordEncoder.matches(password, authMember.getPassword())) {
-            throw new PasswordMismatchException();
+            throw new PasswordMismatchException("야 제대로 해");
         }
         return LoginDto.builder()
-                   .memberId(authMember.getId())
+//                   .memberId(authMember.getId())
                    .email(authMember.getEmail())
-                   .nickname(authMember.getNickname())
-                   .imgUrl(authMember.getImgUrl())
+//                   .nickname(authMember.getNickname())
+//                   .imgUrl(authMember.getImgUrl())
+//                   .imgUrl("imgUrl")
+                   .password(authMember.getPassword())
                    .build();
 
     }
