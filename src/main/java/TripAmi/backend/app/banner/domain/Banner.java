@@ -1,13 +1,12 @@
 package TripAmi.backend.app.banner.domain;
 
-import javax.persistence.*;
+import TripAmi.backend.app.util.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,14 +23,21 @@ public class Banner {
 
     private String title;
 
-    @CreatedDate
-    @Column(nullable = false, name = "create_at")
-    private LocalDateTime createdAt;
+    @Embedded
+    private BaseEntity baseEntity = new BaseEntity();
 
     @Builder
-    public Banner(String imgUrl, String title, LocalDateTime createdAt) {
+    public Banner(String imgUrl, String title) {
         this.imgUrl = imgUrl;
         this.title = title;
-        this.createdAt = createdAt;
+    }
+
+    public void update(String title, String imgUrl) {
+        this.title = title;
+        this.imgUrl = imgUrl;
+    }
+
+    public void delete() {
+        this.baseEntity.delete();
     }
 }

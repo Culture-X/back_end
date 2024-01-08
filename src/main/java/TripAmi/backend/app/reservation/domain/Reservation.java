@@ -1,11 +1,15 @@
 package TripAmi.backend.app.reservation.domain;
 
-import TripAmi.backend.app.member.domain.Traveler;
-import javax.persistence.*;
+import TripAmi.backend.app.product.domain.Program;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,18 +17,38 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Reservation {
     @Id
-    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "reservation_id")
+    Long id;
 
-//    private Program program
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "program_id")
+    Program program;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Traveler traveler;
+    @Column(nullable = false, name = "fixed_date")
+    LocalDateTime fixedDate;
 
-    @Builder
-    public Reservation(Traveler traveler) {
-        this.traveler = traveler;
+    @Column(nullable = false, name = "fixed_people")
+    Integer fixedPeople;
+
+    @ElementCollection
+    @CollectionTable(name = "reservation_people", joinColumns = @JoinColumn(name = "reservation_id"))
+    @Column(name = "authmember_id")
+    List<Long> joinedPersonIds = new ArrayList<>();
+
+    public Reservation(Program program, LocalDateTime fixedDate) {
+        this.program = program;
+        this.fixedDate = fixedDate;
+        this.fixedPeople = 0;
+    }
+
+    @SneakyThrows
+    public void joinPerson(Long personId) {
+        if (this.fixedPeople < program.getTotalPeople())
+            fixedPeople++;
+        else
+            throw new RuntimeException("정원 초과되었습니다.");
+
+        joinedPersonIds.add(personId);
     }
 }

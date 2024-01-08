@@ -234,8 +234,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # application config
-src/main/resources/application.properties
-src/main/resources/application.yml
+*.properties
+*.yml
 
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,macos,windows

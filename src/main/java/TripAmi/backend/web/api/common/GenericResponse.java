@@ -1,5 +1,6 @@
 package TripAmi.backend.web.api.common;
 
+import TripAmi.backend.web.api.program.response.ThemeListResponse;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -23,5 +24,4 @@ public class GenericResponse<T> {
     public static <T> GenericResponse<T> ok() {
         return new GenericResponse<>(HttpStatus.OK.value(), null, HttpStatus.OK.getReasonPhrase());
     }
-
 }

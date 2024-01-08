@@ -71,12 +71,6 @@ public class SecurityConfig {
             .and()
             .apply(new CustomFilterConfigurer())
             .and()
-//            // 조건별로 요청 허용/제한 설정
-//            .authorizeRequests()
-//            .antMatchers("/api/v1/join/**", "/api/v1/login", "/api/v1/refresh").permitAll()
-//            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//            .antMatchers("/api/v1/member/**", "/api/v1/program/**").hasAnyRole("MEMBER", "ADMIN")
-//            .anyRequest().denyAll()
 //            //에러 핸들링
             .exceptionHandling()
             .accessDeniedHandler(new AccessDeniedHandler() {
@@ -100,7 +94,11 @@ public class SecurityConfig {
                 }
             })
             .and()
-            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+            .authorizeRequests()
+            .antMatchers("/api/v1/join/**", "/api/v1/login", "/api/v1/refresh").permitAll()
+            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/member/**", "/api/v1/program/**").hasAnyRole("MEMBER", "ADMIN")
+            .anyRequest().authenticated();
         return http.build();
     }
     @Bean
