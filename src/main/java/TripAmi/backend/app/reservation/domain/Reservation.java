@@ -1,12 +1,12 @@
 package TripAmi.backend.app.reservation.domain;
 
 import TripAmi.backend.app.product.domain.Program;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

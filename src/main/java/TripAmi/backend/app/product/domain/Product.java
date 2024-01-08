@@ -1,11 +1,11 @@
 package TripAmi.backend.app.product.domain;
 
 import TripAmi.backend.app.util.infra.StringListConverter;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

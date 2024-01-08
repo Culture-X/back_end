@@ -1,20 +1,75 @@
 package TripAmi.backend.auth.authmember.domain;
 
-import java.util.Random;
+import TripAmi.backend.auth.authmember.exception.AuthCodeMismatchException;
+import TripAmi.backend.auth.authmember.service.exception.InputTimeOutException;
+import javax.persistence.*;
 
+import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.sql.Time;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(
+    name = "auth_code",
+    indexes = {
+        @Index(
+            name = "idx__auth_code__email",
+            columnList = "email",
+            unique = true
+        )
+    }
+)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthCode {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "auth_code_id", nullable = false)
+    private Long id;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String code;
+    private Boolean confirmed;
+    private LocalDateTime validTime;
 
-    static Random random = new Random();
+    @Builder
+    public AuthCode(
+        String email,
+        String code,
+        LocalDateTime requestTime,
+        Long min
+    ) {
+        this.email = email;
+        this.code = code;
+        this.confirmed = false;
+        this.validTime = requestTime.plusMinutes(min);
+    }
 
-    /**
-     * 6자리의 랜덤한 코드를 생성
-     *
-     * @return 문자, 숫자로 이루어진 6자리 랜덤 코드
-     */
-    public static String generate() {
-        StringBuilder code = new StringBuilder();
-        for (int i = 0; i < 6; i++)
-            code.append(random.nextInt(10));
-        return code.toString();
+    public void updateCode(String code, LocalDateTime requestTime, Long min) {
+        this.code = code;
+        this.validTime = requestTime.plusMinutes(min);
+        this.confirmed = false;
+    }
+
+    public void validateInputTime(LocalDateTime input) {
+        if (this.validTime.isBefore(input))
+            throw new InputTimeOutException();
+    }
+
+    public void validateInputCode(String input) {
+        if (!this.code.equals(input)) {
+            throw new AuthCodeMismatchException();
+        }
+    }
+
+    public void authCodeConfirm() {
+        this.confirmed = true;
+    }
+
+    public Boolean isConfirmed() {
+        return this.confirmed;
     }
 }

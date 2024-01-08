@@ -2,7 +2,7 @@ package TripAmi.backend.app.product.domain;
 
 import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.util.infra.StringListConverter;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
