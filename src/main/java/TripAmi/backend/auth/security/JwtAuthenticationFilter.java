@@ -74,7 +74,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws IOException, ServletException {
         log.info("JwtAuthenticationFilter.successfulAuthentication");
         Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_ADMIN);
+        roles.add(Role.ROLE_MEMBER);
         CustomUserDetails customUserDetails = CustomUserDetails.of((String)authResult.getPrincipal(), "", roles);
         TokenDto tokenDto = jwtProvider.generateTokenDto(customUserDetails);
         String accessToken = tokenDto.accessToken();

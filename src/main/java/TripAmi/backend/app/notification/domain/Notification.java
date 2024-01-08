@@ -1,11 +1,12 @@
 package TripAmi.backend.app.notification.domain;
 
 import TripAmi.backend.app.util.BaseEntity;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Getter

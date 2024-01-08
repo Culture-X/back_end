@@ -1,6 +1,7 @@
 package TripAmi.backend.app.product.domain;
 
 import TripAmi.backend.app.product.ProgramTheme;
+import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
 import javax.persistence.*;
 import lombok.AccessLevel;
@@ -15,12 +16,13 @@ import java.util.List;
 @DiscriminatorValue("program")
 @PrimaryKeyJoinColumn(name = "program_id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "program")
 @Getter
 public class Program extends Product {
     @Column(name = "ami_id")
     Long amiId;
 
-    @OneToMany(mappedBy = "program")
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     List<Spot> spots = new ArrayList<>();
 
     @Column(name = "total_people")
@@ -35,6 +37,9 @@ public class Program extends Product {
     //todo address class 작성
     String location;
 
+    @Embedded
+    private BaseEntity baseEntity;
+
     @Builder
     public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location) {
         super(title, images, content, price);
@@ -44,5 +49,6 @@ public class Program extends Product {
         this.theme = theme;
         this.keywords = keywords;
         this.location = location;
+        this.baseEntity = new BaseEntity();
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("‘api/v1/programs’")
+@RequestMapping("api/v1/programs")
 @RequiredArgsConstructor
 public class ProgramController {
     private final ProgramService programService;

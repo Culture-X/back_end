@@ -22,6 +22,7 @@ public class ProgramServiceImpl implements ProgramService {
     @Transactional
     public void save(CreateProgramRequest request) {
         Program program = Program.builder()
+                              .amiId(request.amiId())
                               .title(request.title())
                               .images(request.images())
                               .content(request.content())
