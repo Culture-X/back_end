@@ -1,8 +1,8 @@
 package TripAmi.backend.app.util;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.MappedSuperclass;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package TripAmi.backend.app.order.domain;
 
 import TripAmi.backend.app.util.BaseEntity;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

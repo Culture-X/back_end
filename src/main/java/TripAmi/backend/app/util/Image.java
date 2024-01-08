@@ -1,6 +1,6 @@
 package TripAmi.backend.app.util;
 
-import jakarta.persistence.Embeddable;
+import javax.persistence.Embeddable;
 import lombok.Getter;
 
 @Embeddable

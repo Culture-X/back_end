@@ -1,6 +1,6 @@
 package TripAmi.backend.app.banner.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,80 +1,89 @@
-//package TripAmi.backend.web.api.auth;
-//
-//import TripAmi.backend.auth.authmember.service.AuthMemberService;
-//import TripAmi.backend.auth.authmember.service.dto.PasswordAuth;
-//import TripAmi.backend.auth.authmember.service.dto.RefreshTokenAuth;
-//import TripAmi.backend.auth.jwt.domain.AuthToken;
-//import TripAmi.backend.web.api.common.GenericResponse;
-//import TripAmi.backend.web.api.common.StatusCode;
-//import TripAmi.backend.web.api.member.request.AuthenticateEmailRequest;
-//import TripAmi.backend.web.api.member.request.SignupMemberRequest;
-//import TripAmi.backend.web.api.member.response.SignupResponse;
-//import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import java.util.UUID;
-//
-//@RestController
-//@RequiredArgsConstructor
-//public class AuthController {
-//    private final AuthMemberService authMemberService;
-//
-//    public String authenticateEmail(@RequestBody @Valid AuthenticateEmailRequest authenticateEmailRequest) {
-//        // 중복확인
-//        // 이메일 전송
-//        // 코드 반환
-//    }
-//
-//    /**
-//     * 회원가입
-//     *
-//     * @param signupMemberRequest
-//     * @return
-//     */
-//    @PostMapping("/api/v1/members")
-//    public GenericResponse<SignupResponse> registerMember(@RequestBody SignupMemberRequest signupMemberRequest) {
-////        UUID memberId = authMemberService.join(signupMemberRequest);
-////        SignupResponse signupResponse = SignupResponse.builder()
-////                                            .id(memberId)
-////                                            .build();
-//
-//        return GenericResponse.<SignupResponse>builder()
-//                   .statusCode(StatusCode.CREATED)
-//                   .message("Success")
-//                   .data(signupResponse).build();
-//
-//    }
-//
-//    /**
-//     * 로그인
-//     *
-//     * @param passwordAuth
-//     * @return
-//     */
-//    @PostMapping("/api/v1/member/auth")
-//    public GenericResponse<AuthToken> authWithUsernamePassword(@RequestBody PasswordAuth passwordAuth) {
-//        AuthToken authToken = authMemberService.authenticate(passwordAuth);
-//        return GenericResponse.<AuthToken>builder()
-//                   .statusCode(StatusCode.OK)
-//                   .message("Success")
-//                   .data(authToken).
-//                   build();
-//
-//    }
-//
-//
-//    @PostMapping("/api/v1/member/renew")
-//    public GenericResponse<AuthToken> authWithUsernamePassword(@RequestBody RefreshTokenAuth refreshTokenAuth) {
-//        AuthToken authToken = authMemberService.authenticate(refreshTokenAuth);
-//        GenericResponse genericResponse = GenericResponse.builder()
-//                                              .statusCode(StatusCode.OK)
-//                                              .message("success")
-//                                              .data(authToken)
-//                                              .build();
-//        return genericResponse;
-//    }
-//
-//}
+package TripAmi.backend.web.api.auth;
+
+import TripAmi.backend.auth.authmember.service.AuthCodeService;
+import TripAmi.backend.auth.authmember.service.AuthMemberService;
+import TripAmi.backend.auth.authmember.service.dto.LoginDto;
+import TripAmi.backend.auth.security.JwtProvider;
+import TripAmi.backend.web.api.auth.requset.*;
+import TripAmi.backend.web.api.common.GenericResponse;
+import TripAmi.backend.web.api.member.request.LoginRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1")
+public class AuthController {
+
+    private final AuthMemberService authMemberService;
+    private final AuthCodeService authCodeService;
+    private final JwtProvider jwtProvider;
+
+    @PostMapping("/join/email")
+    public GenericResponse<String> authenticateEmail(@RequestBody @Valid AuthenticateEmailRequest request) {
+        authMemberService.authenticateEmail(request.email(), LocalDateTime.now());
+        return GenericResponse.ok();
+    }
+
+    @GetMapping("/join/nickname")
+    public GenericResponse<String> validateNickname(@RequestBody @Valid ValidateNickNameRequest request) {
+        authMemberService.validateUniqueNickname(request.nickName());
+        return GenericResponse.ok();
+    }
+
+    @GetMapping("/join/password")
+    public GenericResponse<String> validatePassword(@RequestBody @Valid ValidatePasswordRequest request) {
+        authMemberService.validatePasswordPattern(request.password());
+        return GenericResponse.ok();
+    }
+
+    @GetMapping("/join/confirm")
+    public GenericResponse<String> confirmAuthCode(@RequestBody @Valid ConfirmAuthCodeRequest request) {
+        authCodeService.confirm(request.email(), request.inputCode(), LocalDateTime.now());
+        return GenericResponse.ok();
+    }
+
+    @PostMapping("/join")
+    @ResponseStatus(HttpStatus.CREATED)
+    public GenericResponse<String> join(@RequestBody @Valid JoinRequest request) {
+        authMemberService.join(request.email(), request.nickname(), request.password(), request.agreedMarketing());
+        return GenericResponse.ok();
+    }
+
+    @GetMapping("/login/find")
+    public GenericResponse<String> findAccount(@RequestBody @Valid AuthenticateEmailRequest request) {
+        authMemberService.findAccount(request.email(), LocalDateTime.now());
+        return GenericResponse.ok();
+    }
+
+    @PostMapping("/login")
+    public GenericResponse<LoginDto> login(@RequestBody @Valid LoginRequest request) {
+        return GenericResponse.ok(authMemberService.login(request.email(), request.password()));
+    }
+
+    @PatchMapping("/logout")
+    public GenericResponse<String> logout( HttpServletRequest request) {
+        String encryptedRefreshToken = jwtProvider.resolveRefreshToken(request);
+        String accessToken = jwtProvider.resolveAccessToken(request);
+        authMemberService.logout(encryptedRefreshToken, accessToken);
+
+        return GenericResponse.ok();
+    }
+
+    @PatchMapping("/reissue")
+    public GenericResponse<String> reissue(HttpServletRequest request,
+                                           HttpServletResponse response) {
+        String encryptedRefreshToken = jwtProvider.resolveRefreshToken(request);
+        String newAccessToken = authMemberService.reissueAccessToken(encryptedRefreshToken);
+        jwtProvider.accessTokenSetHeader(newAccessToken, response);
+
+        return GenericResponse.ok();
+    }
+}
+
