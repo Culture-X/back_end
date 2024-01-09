@@ -104,7 +104,9 @@ public class JwtProvider {
         String[] authorities = claims.get("roles").toString().split(",");
         Set<Role> authoritySet = new HashSet<>();
         for (String authority : authorities) {
-            authoritySet.add(Role.valueOf(authority));
+            String cleanedAuthority = authority.replaceAll("[\\[\\]]", "").toUpperCase();
+
+            authoritySet.add(Role.valueOf(cleanedAuthority));
         }
 
         CustomUserDetails customUserDetails = CustomUserDetails.of(

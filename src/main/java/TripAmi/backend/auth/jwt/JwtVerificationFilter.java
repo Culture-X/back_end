@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.management.openmbean.InvalidKeyException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,13 +42,15 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 setAuthenticationToContext(accessToken);
             }
             // TODO: 예외처리 리팩토링
-        } catch (RuntimeException e) {
-            if (e instanceof BusinessLogicException) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                String json = objectMapper.writeValueAsString("error occur");
-                response.getWriter().write(json);
-                response.setStatus(401);
-            }
+        } catch (IllegalArgumentException e) {
+//            if (e instanceof BusinessLogicException) {
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                String json = objectMapper.writeValueAsString("error occur");
+//                response.getWriter().write(json);
+//                response.setStatus(401);
+//            }
+
+
         }
         filterChain.doFilter(request, response);
     }

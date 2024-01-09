@@ -18,7 +18,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
@@ -99,8 +98,10 @@ public class SecurityConfig {
             .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
             .antMatchers("/api/v1/member/**", "/api/v1/program/**").hasAnyRole("MEMBER", "ADMIN")
             .anyRequest().authenticated();
+
         return http.build();
     }
+
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(customAuthenticationProvider());
@@ -110,13 +111,16 @@ public class SecurityConfig {
     public CustomUserDetailsService customUserDetailsService() {
         return new CustomUserDetailsService(authMemberRepository);
     }
+
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public CustomAuthenticationProvider customAuthenticationProvider() {
         return new CustomAuthenticationProvider(customUserDetailsService(), bCryptPasswordEncoder());
     }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
