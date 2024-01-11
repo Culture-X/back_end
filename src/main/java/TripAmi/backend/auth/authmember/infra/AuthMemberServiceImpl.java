@@ -6,6 +6,7 @@ import TripAmi.backend.app.member.service.exception.MemberNotFound;
 import TripAmi.backend.app.util.service.MailService;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
+import TripAmi.backend.auth.authmember.domain.MemberStatus;
 import TripAmi.backend.auth.authmember.domain.Role;
 import TripAmi.backend.auth.authmember.exception.PasswordMismatchException;
 import TripAmi.backend.auth.authmember.service.AuthCodeService;
@@ -51,7 +52,6 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     @Override
     @Transactional
     public void authenticateEmail(String email, LocalDateTime inputTime) {
-        validateUniqueEmail(email);
         // todo AuthCode 찾아서 save or update
         String code = authCodeService.getAuthCode(email, inputTime);
         mailService.sendEmail(email, code);
@@ -112,7 +112,6 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     @Override
     @Transactional
     public void findAccount(String email, LocalDateTime inputTime) {
-        AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
         String code = authCodeService.getAuthCode(email, inputTime);
         mailService.sendEmail(email, code);
     }
@@ -165,7 +164,10 @@ public class AuthMemberServiceImpl implements AuthMemberService {
 
     @Override
     public AuthMember findAuthMember(String email) {
-        return authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
+        AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
+        if (authMember.getStatus().equals(WITHDRAWAL))
+            throw new MemberNotFound();
+        return authMember;
     }
 
     @Override
