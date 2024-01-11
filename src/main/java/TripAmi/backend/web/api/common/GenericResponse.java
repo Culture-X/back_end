@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class GenericResponse<T> {
-    private final int statusCode;
+    private final int status;
     private final T data;
     private final String message;
     @Builder
-    public GenericResponse(int statusCode, T data, String message) {
-        this.statusCode = statusCode;
+    public GenericResponse(int status, T data, String message) {
+        this.status = status;
         this.data = data;
         this.message = message;
     }
