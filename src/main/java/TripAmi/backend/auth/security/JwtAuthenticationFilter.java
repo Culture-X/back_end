@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String encryptedRefreshToken = aes128Config.encryptAes(refreshToken);
         jwtProvider.accessTokenSetHeader(accessToken, response);
         jwtProvider.refresshTokenSetHeader(encryptedRefreshToken, response);
-        AuthMember findAuthMember = authMemberService.findAuthMember(customUserDetails.getEmail());
+        AuthMember findAuthMember = authMemberService.findAuthMemberByEmail(customUserDetails.getEmail());
         Responder.loginSuccessResponse(response, findAuthMember);
 
         // 로그인 성공시 Refresh Token Redis 저장 ( key = Email / value = Refresh Token )
