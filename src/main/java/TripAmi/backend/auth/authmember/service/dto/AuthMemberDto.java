@@ -1,15 +1,13 @@
 package TripAmi.backend.auth.authmember.service.dto;
 
-import TripAmi.backend.auth.jwt.service.dto.TokenDto;
-import lombok.Builder;
+import TripAmi.backend.auth.authmember.domain.MemberStatus;
 
 public record AuthMemberDto(
     String email,
-    String nickname
+    String nickname,
+    String imgUrl,
+    Boolean agreedMarketing,
+    MemberStatus memberStatus
+
 ) {
-    @Builder
-    public AuthMemberDto(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
-    }
 }

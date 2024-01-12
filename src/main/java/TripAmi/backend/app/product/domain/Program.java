@@ -1,5 +1,6 @@
 package TripAmi.backend.app.product.domain;
 
+import TripAmi.backend.app.member.domain.Ami;
 import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.util.BaseEntity;
 import TripAmi.backend.app.util.infra.StringListConverter;
@@ -21,8 +22,9 @@ import java.util.List;
 @Table(name = "program")
 @Getter
 public class Program extends Product {
-    @Column(name = "ami_id")
-    Long amiId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ami_id")
+    Ami ami;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     List<Spot> spots = new ArrayList<>();
@@ -43,14 +45,19 @@ public class Program extends Product {
     private BaseEntity baseEntity;
 
     @Builder
-    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Long amiId, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location) {
+    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Ami ami, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location) {
         super(title, images, content, price);
-        this.amiId = amiId;
         this.spots.addAll(spots);
         this.totalPeople = totalPeople;
         this.theme = theme;
         this.keywords = keywords;
         this.location = location;
         this.baseEntity = new BaseEntity();
+        this.setAmi(ami);
+    }
+
+    public void setAmi(Ami ami) {
+        this.ami = ami;
+        ami.addProgram(this);
     }
 }

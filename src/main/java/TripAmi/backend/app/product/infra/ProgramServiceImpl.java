@@ -1,5 +1,8 @@
 package TripAmi.backend.app.product.infra;
 
+import TripAmi.backend.app.member.domain.Ami;
+import TripAmi.backend.app.member.domain.AmiRepository;
+import TripAmi.backend.app.member.service.AmiService;
 import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
@@ -17,12 +20,14 @@ import java.util.List;
 public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
+    private final AmiService amiService;
 
     @Override
     @Transactional
     public void save(CreateProgramRequest request) {
+        Ami ami = amiService.findNonWithdrawalAmiById(request.amiId());
         Program program = Program.builder()
-                              .amiId(request.amiId())
+                              .ami(ami)
                               .title(request.title())
                               .images(request.images())
                               .content(request.content())

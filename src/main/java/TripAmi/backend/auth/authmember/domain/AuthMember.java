@@ -23,7 +23,9 @@ import java.util.TreeSet;
             name = "idx__auth_member__email",
             columnList = "email",
             unique = true
-        )
+        ),
+                  @Index(name = "idx__auth_member__status",
+                  columnList = "status")
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,7 +53,6 @@ public class AuthMember {
     private Set<Role> roles = new TreeSet<>();
     @Embedded
     private Condition condition;
-    private String refreshToken;
     @Enumerated(value = EnumType.STRING)
     private MemberStatus status;
     @Embedded
@@ -66,14 +67,12 @@ public class AuthMember {
         Traveler traveler,
         Ami ami,
         Boolean agreedMarketing,
-        String refreshToken,
         PasswordEncoder passwordEncoder
     ) {
         this.email = email;
         this.password = passwordEncoder.encode(raw);
         this.nickname = nickname;
         this.condition = new Condition(agreedMarketing);
-        this.refreshToken = refreshToken;
         this.status = MemberStatus.ACTIVE;
         addRole(role);
         updateMember(traveler, ami);
@@ -137,8 +136,7 @@ public class AuthMember {
         this.condition.updateAgreedMarketing(agreed);
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public Boolean isWithdrawal() {
+        return this.status.equals(MemberStatus.WITHDRAWAL);
     }
-
 }

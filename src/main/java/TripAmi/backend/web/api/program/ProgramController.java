@@ -36,7 +36,7 @@ public class ProgramController {
         Program program = programService.findById(id);
         ProgramDto response = ProgramDto.builder()
                                   .title(program.getTitle())
-                                  .amiId(program.getAmiId())
+                                  .amiId(program.getAmi().getId())
                                   .content(program.getContent())
                                   .images(program.getImages())
                                   .price(program.getPrice())
@@ -56,7 +56,7 @@ public class ProgramController {
         Program program = programService.findDetailById(id);
         ProgramDetailDto response = ProgramDetailDto.builder()
                                         .title(program.getTitle())
-                                        .amiId(program.getAmiId())
+                                        .amiId(program.getAmi().getId())
                                         .content(program.getContent())
                                         .images(program.getImages())
                                         .price(program.getPrice())
@@ -98,7 +98,7 @@ public class ProgramController {
                                                        .title(item.getTitle())
                                                        .theme(item.getTheme())
                                                        .price(item.getPrice())
-                                                       .amiId(item.getAmiId())
+                                                       .amiId(item.getAmi().getId())
                                                        .content(item.getContent())
                                                        .images(item.getImages())
                                                        .build()

@@ -1,13 +1,15 @@
 package TripAmi.backend.auth.authmember.service;
 
 
+import TripAmi.backend.app.member.domain.Ami;
+import TripAmi.backend.app.member.domain.Traveler;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.Role;
-import TripAmi.backend.auth.authmember.service.dto.AuthMemberDto;
+import TripAmi.backend.auth.authmember.service.dto.DetailedAuthMemberDto;
 import TripAmi.backend.auth.authmember.service.dto.LoginDto;
-import TripAmi.backend.auth.jwt.service.dto.TokenDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface AuthMemberService {
 
@@ -27,18 +29,26 @@ public interface AuthMemberService {
 
     void withdrawal(Long authMemberId, String reason);
 
-    LoginDto login(String email, String password);
+//    LoginDto login(String email, String password);
 
     void logout(String encryptedRefreshToken, String accessToken);
 
-    AuthMemberDto selectRole(String email, Role role);
+    void selectRole(String email, Role role);
 
-    AuthMember findAuthMember(String email);
+    AuthMember findAuthMemberByEmail(String email);
 
-    AuthMember findAuthMember(Long id);
+    DetailedAuthMemberDto findAuthMemberById(Long id);
+
+    List<DetailedAuthMemberDto> findAuthMembers();
+
+    DetailedAuthMemberDto findRegisteredMember(String email);
 
     void updateNickname(Long authMemberId, String nickname);
 
     String reissueAccessToken(String encryptedRefreshToken);
+
+    Ami findAmiByEmail(String email);
+
+    Traveler findTravelerByEmail(String email);
 
 }

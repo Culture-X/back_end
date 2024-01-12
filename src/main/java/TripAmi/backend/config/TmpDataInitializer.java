@@ -43,14 +43,15 @@ public class TmpDataInitializer {
                                         .build();
             authMemberRepository.save(authMember);
 
+
             // Create three programs for each member
             for (int j = 1; j <= 3; j++) {
-                createProgram("Program" + j, i);
+                createProgram("Program" + j, ami);
             }
         }
     }
 
-    private void createProgram(String title, Long amiId) {
+    private void createProgram(String title, Ami ami) {
         // Add two spots to the program
         Spot spot1 = Spot.builder()
                          .title("Spot 1 for " + title)
@@ -71,7 +72,7 @@ public class TmpDataInitializer {
                               .images(Arrays.asList("image1.jpg", "image2.jpg"))
                               .content("Program content for " + title)
                               .price(100)
-                              .amiId(amiId)
+                              .ami(ami)
                               .totalPeople(10)
                               .theme(ProgramTheme.ACTIVITY)
                               .keywords(Arrays.asList("keyword1", "keyword2"))

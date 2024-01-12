@@ -20,10 +20,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setStatus(HttpStatus.ACCEPTED.value());
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-
-        PrintWriter writer = response.getWriter();
-        writer.write("Successful Authentication");
-        writer.close();
     }
 
     @Override

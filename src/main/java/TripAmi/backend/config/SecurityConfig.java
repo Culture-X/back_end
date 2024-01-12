@@ -95,7 +95,7 @@ public class SecurityConfig {
             .and()
             .authorizeRequests()
             .antMatchers("/api/v1/auth/**", "/v3/api-docs/**","/swagger-ui/**").permitAll()
-            .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+            .antMatchers("/api/v1/admin/**", "/api/v1/members").hasRole("ADMIN")
             .antMatchers("/api/v1/members/**", "/api/v1/program/**").hasAnyRole("MEMBER", "ADMIN")
             .anyRequest().authenticated();
 
@@ -146,7 +146,7 @@ public class SecurityConfig {
                 jwtProvider, aes128Config, authMemberService, redisService);
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtProvider, redisService);
 
-            jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
             builder

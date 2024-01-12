@@ -104,31 +104,24 @@ public class AuthController {
     })
     @PostMapping("/check/member")
     public GenericResponse<String> checkRegisteredMember(@RequestBody @Valid AuthenticateEmailRequest request) {
-        authMemberService.findAuthMember(request.email());
+        authMemberService.findAuthMemberByEmail(request.email());
         return GenericResponse.ok();
     }
 
+    /**
+     * 스웨거용, 실제 사용 x
+     * @param request
+     * @param response
+     * @return
+     */
     @Operation(summary = "로그인")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "토큰 발급"),
         @ApiResponse(responseCode = "401", description = "로그인 실패")
     })
     @PostMapping("/login")
-    public GenericResponse<LoginDto> login(@RequestBody @Valid LoginRequest request) {
-        return GenericResponse.ok(authMemberService.login(request.email(), request.password()));
-    }
-
-    @Operation(summary = "로그아웃")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "로그아웃 완료"),
-        @ApiResponse(responseCode = "403", description = "권한 없음")
-    })
-    @PatchMapping("/logout")
-    public GenericResponse<String> logout( HttpServletRequest request) {
-        String encryptedRefreshToken = jwtProvider.resolveRefreshToken(request);
-        String accessToken = jwtProvider.resolveAccessToken(request);
-        authMemberService.logout(encryptedRefreshToken, accessToken);
-
+    public GenericResponse<String> login(HttpServletRequest request,
+                                         HttpServletResponse response) {
         return GenericResponse.ok();
     }
 

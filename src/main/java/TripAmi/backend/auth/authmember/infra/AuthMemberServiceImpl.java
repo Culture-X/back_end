@@ -6,12 +6,12 @@ import TripAmi.backend.app.member.service.exception.MemberNotFound;
 import TripAmi.backend.app.util.service.MailService;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
-import TripAmi.backend.auth.authmember.domain.MemberStatus;
 import TripAmi.backend.auth.authmember.domain.Role;
 import TripAmi.backend.auth.authmember.exception.PasswordMismatchException;
 import TripAmi.backend.auth.authmember.service.AuthCodeService;
 import TripAmi.backend.auth.authmember.service.AuthMemberService;
 import TripAmi.backend.auth.authmember.service.dto.AuthMemberDto;
+import TripAmi.backend.auth.authmember.service.dto.DetailedAuthMemberDto;
 import TripAmi.backend.auth.authmember.service.dto.LoginDto;
 import TripAmi.backend.auth.authmember.service.dto.PasswordPatternChecker;
 import TripAmi.backend.auth.authmember.service.exception.DuplicatedEmailException;
@@ -32,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static TripAmi.backend.auth.authmember.domain.MemberStatus.WITHDRAWAL;
 
@@ -94,6 +96,21 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     }
 
     @Override
+    public DetailedAuthMemberDto findRegisteredMember(String email) {
+        AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
+        return DetailedAuthMemberDto.builder()
+                   .email(authMember.getEmail())
+                   .nickname(authMember.getNickname())
+                   .imgUrl(authMember.getImgUrl())
+                   .agreedMarketing(authMember.getCondition().getAgreedMarketing())
+                   .memberStatus(authMember.getStatus())
+                   .joinedAt(authMember.getBaseEntity().getCreatedAt())
+                   .amiId(authMember.getAmi().getId())
+                   .travelerId(authMember.getTraveler().getId())
+                   .build();
+    }
+
+    @Override
     public void updatePassword(Long authMemberId, String password) {
         passwordPatternChecker.checkCharsCombination(password);
         AuthMember authMember = authMemberRepository.findById(authMemberId).orElseThrow(MemberNotFound::new);
@@ -116,23 +133,23 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         mailService.sendEmail(email, code);
     }
 
-    @Override
-    @Transactional
-    public LoginDto login(String email, String password) {
-        AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
-        if (!passwordEncoder.matches(password, authMember.getPassword())) {
-            throw new PasswordMismatchException("야 제대로 해");
-        }
-        return LoginDto.builder()
-//                   .memberId(authMember.getId())
-                   .email(authMember.getEmail())
-//                   .nickname(authMember.getNickname())
-//                   .imgUrl(authMember.getImgUrl())
-//                   .imgUrl("imgUrl")
-                   .password(authMember.getPassword())
-                   .build();
-
-    }
+//    @Override
+//    @Transactional
+//    public LoginDto login(String email, String password) {
+//        AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
+//        if (!passwordEncoder.matches(password, authMember.getPassword())) {
+//            throw new PasswordMismatchException("야 제대로 해");
+//        }
+//        return LoginDto.builder()
+////                   .memberId(authMember.getId())
+//                   .email(authMember.getEmail())
+////                   .nickname(authMember.getNickname())
+////                   .imgUrl(authMember.getImgUrl())
+////                   .imgUrl("imgUrl")
+//                   .password(authMember.getPassword())
+//                   .build();
+//
+//    }
 
     @Override
     public void logout(String encryptedRefreshToken, String accessToken) {
@@ -153,17 +170,13 @@ public class AuthMemberServiceImpl implements AuthMemberService {
 
     @Override
     @Transactional
-    public AuthMemberDto selectRole(String email, Role role) {
+    public void selectRole(String email, Role role) {
         AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
         authMember.switchRole(role);
-        return AuthMemberDto.builder()
-                   .email(authMember.getEmail())
-                   .nickname(authMember.getNickname())
-                   .build();
     }
 
     @Override
-    public AuthMember findAuthMember(String email) {
+    public AuthMember findAuthMemberByEmail(String email) {
         AuthMember authMember = authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
         if (authMember.getStatus().equals(WITHDRAWAL))
             throw new MemberNotFound();
@@ -171,8 +184,35 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     }
 
     @Override
-    public AuthMember findAuthMember(Long id) {
-        return authMemberRepository.findById(id).orElseThrow(MemberNotFound::new);
+    public DetailedAuthMemberDto findAuthMemberById(Long id) {
+        AuthMember authMember = authMemberRepository.findById(id).orElseThrow(MemberNotFound::new);
+        return DetailedAuthMemberDto.builder()
+                   .email(authMember.getEmail())
+                   .nickname(authMember.getNickname())
+                   .imgUrl(authMember.getImgUrl())
+                   .agreedMarketing(authMember.getCondition().getAgreedMarketing())
+                   .memberStatus(authMember.getStatus())
+                   .joinedAt(authMember.getBaseEntity().getCreatedAt())
+                   .amiId(authMember.getAmi().getId())
+                   .travelerId(authMember.getTraveler().getId())
+                   .build();
+    }
+
+    @Override
+    public List<DetailedAuthMemberDto> findAuthMembers() {
+        List<AuthMember> authMembers = authMemberRepository.findAll();
+        return authMembers.stream()
+                   .map(authMember -> DetailedAuthMemberDto.builder()
+                                          .email(authMember.getEmail())
+                                          .nickname(authMember.getNickname())
+                                          .imgUrl(authMember.getImgUrl())
+                                          .agreedMarketing(authMember.getCondition().getAgreedMarketing())
+                                          .memberStatus(authMember.getStatus())
+                                          .joinedAt(authMember.getBaseEntity().getCreatedAt())
+                                          .amiId(authMember.getAmi().getId())
+                                          .travelerId(authMember.getTraveler().getId())
+                                          .build())
+                   .collect(Collectors.toList());
     }
 
     @Override
@@ -188,10 +228,6 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         if (encryptedRefreshToken == null) {
             throw new BusinessLogicException(ExceptionCode.HEADER_REFRESH_TOKEN_NOT_EXISTS);
         }
-    }
-
-    private AuthMember findAuthMemberByEmail(String email) {
-        return authMemberRepository.findByEmail(email).orElseThrow(MemberNotFound::new);
     }
 
     @Override
@@ -213,4 +249,13 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         } else throw new BusinessLogicException(ExceptionCode.TOKEN_IS_NOT_SAME);
     }
 
+    @Override
+    public Ami findAmiByEmail(String email) {
+        return this.findAuthMemberByEmail(email).getAmi();
+    }
+
+    @Override
+    public Traveler findTravelerByEmail(String email) {
+        return this.findAuthMemberByEmail(email).getTraveler();
+    }
 }

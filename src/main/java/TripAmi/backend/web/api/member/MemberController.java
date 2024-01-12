@@ -1,12 +1,10 @@
 package TripAmi.backend.web.api.member;
 
 import TripAmi.backend.auth.authmember.service.AuthMemberService;
-import TripAmi.backend.auth.authmember.service.dto.AuthMemberDto;
-import TripAmi.backend.auth.authmember.service.dto.UpdateNicknameRequest;
+import TripAmi.backend.auth.authmember.service.dto.DetailedAuthMemberDto;
+import TripAmi.backend.auth.security.JwtProvider;
 import TripAmi.backend.web.api.auth.requset.DeleteMemberRequest;
-import TripAmi.backend.web.api.auth.requset.FindMembersRequest;
 import TripAmi.backend.web.api.auth.requset.UpdatePasswordRequest;
-import TripAmi.backend.web.api.auth.response.FindMembersResponse;
 import TripAmi.backend.web.api.common.GenericResponse;
 import TripAmi.backend.web.api.member.request.SelectRoleRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,13 +14,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
 public class MemberController {
     private final AuthMemberService authMemberService;
+    private final JwtProvider jwtProvider;
+
 
     @Operation(summary = "회원 상태 선택")
     @ApiResponses(value = {
@@ -31,8 +33,8 @@ public class MemberController {
     @PatchMapping("/{memberId}/role")
     @PreAuthorize("idMatches(#memberId) or hasRole('ROLE_ADMIN')")
     //todo 권한 설정
-    public GenericResponse<AuthMemberDto> selectRole(@RequestBody @Valid SelectRoleRequest request) {
-        return GenericResponse.ok(authMemberService.selectRole(request.email(), request.role()));
+    public GenericResponse<String> selectRole(@PathVariable Long memberId, @RequestBody @Valid SelectRoleRequest request) {
+        return GenericResponse.ok();
     }
 
     @Operation(summary = "비밀번호 변경")
@@ -42,20 +44,21 @@ public class MemberController {
     // 비밀번호 변경 컨트롤러(이메일, 비밀번호)
     @PatchMapping("/{memberId}/password")
     @PreAuthorize("idMatches(#memberId) or hasRole('ROLE_ADMIN')")
-    public void updatePassword(@PathVariable Long memberId, @RequestBody @Valid UpdatePasswordRequest request) {
+    public GenericResponse<Object> updatePassword(@PathVariable Long memberId, @RequestBody @Valid UpdatePasswordRequest request) {
         authMemberService.updatePassword(memberId, request.password());
+        return GenericResponse.ok();
     }
 
     @Operation(summary = "회원 탈퇴")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "탈퇴 완료"),
     })
-    @PatchMapping("/{memberId}/withdrawal")
+    @PostMapping("/{memberId}/withdrawal")
     @PreAuthorize("idMatches(#memberId) or hasRole('ROLE_ADMIN')")
-    public void deleteMember(@PathVariable Long memberId, @RequestBody @Valid DeleteMemberRequest request) {
+    public GenericResponse<Object> deleteMember(@PathVariable Long memberId, @RequestBody @Valid DeleteMemberRequest request) {
         authMemberService.withdrawal(memberId, request.reason());
+        return GenericResponse.ok();
     }
-
 
     // 회원 상세 조회
     @Operation(summary = "회원 상세 조회")
@@ -64,15 +67,32 @@ public class MemberController {
     })
     @GetMapping("/{memberId}")
     @PreAuthorize("idMatches(#memberId) or hasRole('ROLE_ADMIN')")
-    public void findMember(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long memberId) {
-        // todo admin계정과 해당 유저만 조회 가능하도록
+    public GenericResponse<DetailedAuthMemberDto> findMember(@PathVariable Long memberId) {
+        return GenericResponse.ok(authMemberService.findAuthMemberById(memberId));
     }
 
+    @Operation(summary = "회원 상세 목록 조회")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "탈퇴 완료"),
+    })
+    @GetMapping()
+    public GenericResponse<List<DetailedAuthMemberDto>> findMembers() {
+        return GenericResponse.ok(authMemberService.findAuthMembers());
+    }
 
-    //
-    @GetMapping("/filter")
-    public FindMembersResponse findMembersByFilter(@RequestBody @Valid FindMembersRequest request) {
-        return FindMembersResponse.builder().build();
+    @Operation(summary = "로그아웃")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "로그아웃 완료"),
+        @ApiResponse(responseCode = "403", description = "권한 없음")
+    })
+    @PatchMapping("/{memberId}/logout")
+    @PreAuthorize("idMatches(#memberId)")
+    public GenericResponse<String> logout(@PathVariable Long memberId, HttpServletRequest request) {
+        String encryptedRefreshToken = jwtProvider.resolveRefreshToken(request);
+        String accessToken = jwtProvider.resolveAccessToken(request);
+        authMemberService.logout(encryptedRefreshToken, accessToken);
+
+        return GenericResponse.ok();
     }
 
 }
