@@ -1,7 +1,6 @@
 package TripAmi.backend.app.util.service;
 
 import TripAmi.backend.app.util.service.exception.SendMailException;
-import TripAmi.backend.auth.authmember.domain.AuthCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;

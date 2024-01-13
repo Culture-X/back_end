@@ -3,7 +3,6 @@ package TripAmi.backend.auth.authmember.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;

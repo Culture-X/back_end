@@ -24,8 +24,8 @@ import java.util.TreeSet;
             columnList = "email",
             unique = true
         ),
-                  @Index(name = "idx__auth_member__status",
-                  columnList = "status")
+        @Index(name = "idx__auth_member__status",
+            columnList = "status")
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

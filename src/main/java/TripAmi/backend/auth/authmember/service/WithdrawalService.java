@@ -1,7 +1,6 @@
 package TripAmi.backend.auth.authmember.service;
 
 import TripAmi.backend.auth.authmember.domain.AuthMember;
-import TripAmi.backend.auth.authmember.domain.Withdrawal;
 import TripAmi.backend.auth.authmember.service.dto.WithdrawalDto;
 
 import java.util.List;

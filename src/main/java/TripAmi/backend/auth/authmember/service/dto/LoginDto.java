@@ -1,6 +1,5 @@
 package TripAmi.backend.auth.authmember.service.dto;
 
-import TripAmi.backend.auth.jwt.service.dto.TokenDto;
 import lombok.Builder;
 
 public record LoginDto(

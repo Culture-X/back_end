@@ -10,15 +10,11 @@ import TripAmi.backend.auth.jwt.service.dto.TokenDto;
 import TripAmi.backend.auth.security.infra.CustomUserDetails;
 import TripAmi.backend.config.AES128Config;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -27,12 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 // jwt가 유효성을 검증하는 필터
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-//    private final AuthenticationManager authenticationManager;
+    //    private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final AES128Config aes128Config;
     private final AuthMemberService authMemberService;
@@ -75,7 +72,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("JwtAuthenticationFilter.successfulAuthentication");
         Set<Role> roles = new HashSet<>();
         roles.add(Role.ROLE_MEMBER);
-        CustomUserDetails customUserDetails = CustomUserDetails.of((String)authResult.getPrincipal(), "", roles);
+        CustomUserDetails customUserDetails = CustomUserDetails.of((String) authResult.getPrincipal(), "", roles);
         TokenDto tokenDto = jwtProvider.generateTokenDto(customUserDetails);
         String accessToken = tokenDto.accessToken();
         String refreshToken = tokenDto.refreshToken();

@@ -6,9 +6,6 @@ import TripAmi.backend.app.member.service.AmiService;
 import TripAmi.backend.app.member.service.dto.AmiDto;
 import TripAmi.backend.app.member.service.exception.MemberNotFound;
 import TripAmi.backend.app.member.service.exception.WithdrawalMemberException;
-import TripAmi.backend.auth.authmember.domain.AuthMember;
-import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
-import TripAmi.backend.auth.authmember.domain.MemberStatus;
 import TripAmi.backend.auth.authmember.service.AuthMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +37,7 @@ public class AmiServiceImpl implements AmiService {
                    .email(ami.getAuthMember().getEmail())
                    .nickname(ami.getAuthMember().getNickname())
                    .imgUrl(ami.getAuthMember().getImgUrl())
+                   .rating(ami.getRating())
                    .programs(ami.getPrograms())
                    .build();
     }
@@ -54,6 +51,7 @@ public class AmiServiceImpl implements AmiService {
                    .email(ami.getAuthMember().getEmail())
                    .nickname(ami.getAuthMember().getNickname())
                    .imgUrl(ami.getAuthMember().getImgUrl())
+                   .rating(ami.getRating())
                    .programs(ami.getPrograms())
                    .build();
     }
@@ -68,6 +66,7 @@ public class AmiServiceImpl implements AmiService {
                                 .email(ami.getAuthMember().getEmail())
                                 .nickname(ami.getAuthMember().getNickname())
                                 .imgUrl(ami.getAuthMember().getImgUrl())
+                                .rating(ami.getRating())
                                 .programs(ami.getPrograms())
                                 .build());
             }

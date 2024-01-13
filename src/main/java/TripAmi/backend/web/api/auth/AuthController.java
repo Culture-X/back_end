@@ -2,11 +2,9 @@ package TripAmi.backend.web.api.auth;
 
 import TripAmi.backend.auth.authmember.service.AuthCodeService;
 import TripAmi.backend.auth.authmember.service.AuthMemberService;
-import TripAmi.backend.auth.authmember.service.dto.LoginDto;
 import TripAmi.backend.auth.security.JwtProvider;
 import TripAmi.backend.web.api.auth.requset.*;
 import TripAmi.backend.web.api.common.GenericResponse;
-import TripAmi.backend.web.api.member.request.LoginRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

@@ -1,7 +1,5 @@
 package TripAmi.backend.auth.authmember.service;
 
-import TripAmi.backend.auth.authmember.domain.AuthCode;
-
 import java.time.LocalDateTime;
 
 public interface AuthCodeService {

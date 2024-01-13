@@ -5,9 +5,7 @@ import TripAmi.backend.auth.authmember.service.exception.InputTimeOutException;
 import javax.persistence.*;
 
 import lombok.*;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity

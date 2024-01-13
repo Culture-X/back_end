@@ -1,7 +1,6 @@
 package TripAmi.backend.auth.security;
 
 import TripAmi.backend.auth.authmember.domain.Role;
-import TripAmi.backend.auth.security.infra.CustomUserDetails;
 import TripAmi.backend.auth.security.infra.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,10 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
