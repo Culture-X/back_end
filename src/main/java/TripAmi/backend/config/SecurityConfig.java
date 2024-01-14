@@ -96,7 +96,7 @@ public class SecurityConfig {
             .authorizeRequests()
             .antMatchers("/api/v1/auth/**", "/v3/api-docs/**","/swagger-ui/**").permitAll()
             .antMatchers("/api/v1/admin/**", "/api/v1/members").hasRole("ADMIN")
-            .antMatchers("/api/v1/members/**", "/api/v1/program/**").hasAnyRole("MEMBER", "ADMIN")
+            .antMatchers("/api/v1/members/**", "/api/v1/program/**","/api/v1/banners/**").hasAnyRole("MEMBER", "ADMIN")
             .anyRequest().authenticated();
 
         return http.build();
