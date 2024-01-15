@@ -22,7 +22,7 @@ import java.util.List;
 public class AmiController {
     private final AmiService amiService;
 
-    @Operation(summary = "아미 아이디로 아미 조회")
+    @Operation(summary = "아이디로 아미 조회")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "조회 완료"),
     })
@@ -31,14 +31,14 @@ public class AmiController {
         return GenericResponse.ok(amiService.findAmiById(amiId));
     }
 
-    @Operation(summary = "이메일로 아미 조회")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "조회 완료"),
-    })
-    @GetMapping("/{email}")
-    public GenericResponse<AmiDto> findAmi(@PathVariable String email) {
-        return GenericResponse.ok(amiService.findAmiByEmail(email));
-    }
+//    @Operation(summary = "이메일로 아미 조회")
+//    @ApiResponses(value = {
+//        @ApiResponse(responseCode = "200", description = "조회 완료"),
+//    })
+//    @GetMapping("/search")
+//    public GenericResponse<AmiDto> findAmi(@RequestParam String email) {
+//        return GenericResponse.ok(amiService.findAmiByEmail(email));
+//    }
 
     @Operation(summary = "아미 목록 조회")
     @ApiResponses(value = {
