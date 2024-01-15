@@ -42,6 +42,7 @@ public class ProgramController {
                                   .images(program.getImages())
                                   .price(program.getPrice())
                                   .theme(program.getTheme())
+                                  .keywords(program.getKeywords())
                                   .startTime(program.getStartTime())
                                   .build();
 
@@ -52,6 +53,7 @@ public class ProgramController {
                                                       .imgUrl(spot.getImgUrl())
                                                       .content(spot.getContent())
                                                       .requiredTime(spot.getRequiredTime())
+                                                      .transportWithTimes(spot.getTransportWithTimes())
                                                       .build())
                                      .collect(Collectors.toList());
 

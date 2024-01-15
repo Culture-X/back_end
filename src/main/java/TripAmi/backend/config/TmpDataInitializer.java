@@ -8,6 +8,7 @@ import TripAmi.backend.app.product.ProgramTheme;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.product.domain.ProgramRepository;
 import TripAmi.backend.app.product.domain.Spot;
+import TripAmi.backend.app.product.domain.TransportCode;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
 import TripAmi.backend.auth.authmember.domain.Role;
@@ -19,6 +20,8 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -72,6 +75,12 @@ public class TmpDataInitializer {
                          .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 1 content for " + title)
                          .requiredTime(LocalTime.of(1, 30))
+                         .transportWithTimes(Map.of(
+                             TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
+                             TransportCode.BUS, LocalDateTime.now().plusMinutes(20),
+                             TransportCode.TRAIN, LocalDateTime.now().plusMinutes(30),
+                             TransportCode.CAR, LocalDateTime.now().plusMinutes(40)
+                         ))
                          .build();
 
         Spot spot2 = Spot.builder()
@@ -79,6 +88,12 @@ public class TmpDataInitializer {
                          .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 2 content for " + title)
                          .requiredTime(LocalTime.of(2, 0))
+                         .transportWithTimes(Map.of(
+                             TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
+                             TransportCode.BUS, LocalDateTime.now().plusMinutes(20),
+                             TransportCode.TRAIN, LocalDateTime.now().plusMinutes(30),
+                             TransportCode.CAR, LocalDateTime.now().plusMinutes(40)
+                         ))
                          .build();
 
         Program program = Program.builder()
