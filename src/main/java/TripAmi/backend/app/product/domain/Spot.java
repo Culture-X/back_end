@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,18 +34,23 @@ public class Spot {
     @Column(nullable = false)
     LocalTime requiredTime;
 
+    String distance;
+
+    @ElementCollection
+    @CollectionTable(name = "spot_transport_mapping", joinColumns = @JoinColumn(name = "spot_id"))
+    @MapKeyEnumerated(EnumType.STRING)
+    @Column(name = "transport_time")
+    Map<TransportCode, LocalTime> transportWithTimes = new HashMap<>();
+
     @Builder
-    public Spot(
-        Program program,
-        String title,
-        String imgUrl,
-        String content,
-        LocalTime requiredTime) {
+    public Spot(Program program, String title, String imgUrl, String content, LocalTime requiredTime, String distance, Map<TransportCode, LocalTime> transportWithTimes) {
         this.program = program;
         this.title = title;
         this.imgUrl = imgUrl;
         this.content = content;
         this.requiredTime = requiredTime;
+        this.distance = distance;
+        this.transportWithTimes = transportWithTimes;
     }
 
     public void setProgram(Program program) {

@@ -60,7 +60,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.password());
         setDetails(request, authenticationToken);
-//        return this.getAuthenticationManager().authenticate(authenticationToken);
         return this.getAuthenticationManager().authenticate(authenticationToken);
     }
 

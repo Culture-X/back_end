@@ -29,6 +29,7 @@ public class ProgramServiceImpl implements ProgramService {
         Program program = Program.builder()
                               .ami(ami)
                               .title(request.title())
+                              .subTitle(request.subtitle())
                               .images(request.images())
                               .content(request.content())
                               .price(request.price())
@@ -37,6 +38,7 @@ public class ProgramServiceImpl implements ProgramService {
                               .keywords(request.keyWords())
                               .spots(request.spots())
                               .location(request.location())
+                              .startTime(request.startTime())
                               .build();
         programRepository.save(program);
     }

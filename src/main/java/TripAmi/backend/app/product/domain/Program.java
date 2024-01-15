@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +42,15 @@ public class Program extends Product {
     //todo address class 작성
     String location;
 
+    String subTitle;
+
+    LocalDateTime startTime;
+
     @Embedded
     private BaseEntity baseEntity;
 
     @Builder
-    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Ami ami, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location) {
+    public Program(String title, List<String> images, String content, Integer price, List<Spot> spots, Ami ami, Integer totalPeople, ProgramTheme theme, List<String> keywords, String location, String subTitle, LocalDateTime startTime) {
         super(title, images, content, price);
         this.spots.addAll(spots);
         this.totalPeople = totalPeople;
@@ -53,6 +58,8 @@ public class Program extends Product {
         this.keywords = keywords;
         this.location = location;
         this.baseEntity = new BaseEntity();
+        this.subTitle = subTitle;
+        this.startTime = startTime;
         this.setAmi(ami);
     }
 
