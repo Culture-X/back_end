@@ -17,9 +17,11 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "spot_id")
     Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     Program program;
+
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     String title;
     @Column(nullable = false)
@@ -41,5 +43,9 @@ public class Spot {
         this.imgUrl = imgUrl;
         this.content = content;
         this.requiredTime = requiredTime;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
     }
 }

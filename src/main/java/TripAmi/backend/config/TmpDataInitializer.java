@@ -93,6 +93,8 @@ public class TmpDataInitializer {
                               .spots(Arrays.asList(spot1, spot2))
                               .build();
 
+        spot1.setProgram(program);
+        spot2.setProgram(program);
         programRepository.save(program);
     }
 }

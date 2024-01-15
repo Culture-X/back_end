@@ -57,6 +57,8 @@ public class Rating {
     }
 
     public BigDecimal getRating() {
+        if (getCumulativeSum() == 0)
+            return (valueOf(0));
         return valueOf(getCumulativeSum())
                    .divide(valueOf(getTotalNum()), HALF_UP)
                    .setScale(5, HALF_UP);

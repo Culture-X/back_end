@@ -26,7 +26,7 @@ public class Program extends Product {
     @JoinColumn(name = "ami_id")
     Ami ami;
 
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Spot> spots = new ArrayList<>();
 
     @Column(name = "total_people")

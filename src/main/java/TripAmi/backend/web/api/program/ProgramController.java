@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/programs")
+@RequestMapping("/api/v1/programs")
 @RequiredArgsConstructor
 public class ProgramController {
     private final ProgramService programService;
@@ -42,6 +42,19 @@ public class ProgramController {
                                   .price(program.getPrice())
                                   .theme(program.getTheme())
                                   .build();
+
+        List<SpotDto> spotDtos = program.getSpots().stream()
+                                     .map(spot -> SpotDto.builder()
+                                                      .id(spot.getId())
+                                                      .title(spot.getTitle())
+                                                      .imgUrl(spot.getImgUrl())
+                                                      .content(spot.getContent())
+                                                      .requiredTime(spot.getRequiredTime())
+                                                      .build())
+                                     .collect(Collectors.toList());
+
+        response.setSpots(spotDtos);
+
         return GenericResponse.ok(response);
     }
 
@@ -90,23 +103,23 @@ public class ProgramController {
      * @param theme 테마이름 (String)
      * @return 해당하는 Theme에 포함된 Program(s)
      */
-    @GetMapping("/{theme}")
-    public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
-        ProgramTheme programTheme = ProgramTheme.valueOf(theme.toUpperCase());
-        List<ProgramDto> result = programService.findByTheme(programTheme).stream()
-                                      .map(item -> ProgramDto.builder()
-                                                       .title(item.getTitle())
-                                                       .theme(item.getTheme())
-                                                       .price(item.getPrice())
-                                                       .amiId(item.getAmi().getId())
-                                                       .content(item.getContent())
-                                                       .images(item.getImages())
-                                                       .build()
-                                      ).collect(Collectors.toList());
-
-        ProgramListResponse response = new ProgramListResponse(result);
-        return GenericResponse.ok(response);
-    }
+//    @GetMapping("/{theme}")
+//    public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
+//        ProgramTheme programTheme = ProgramTheme.valueOf(theme.toUpperCase());
+//        List<ProgramDto> result = programService.findByTheme(programTheme).stream()
+//                                      .map(item -> ProgramDto.builder()
+//                                                       .title(item.getTitle())
+//                                                       .theme(item.getTheme())
+//                                                       .price(item.getPrice())
+//                                                       .amiId(item.getAmi().getId())
+//                                                       .content(item.getContent())
+//                                                       .images(item.getImages())
+//                                                       .build()
+//                                      ).collect(Collectors.toList());
+//
+//        ProgramListResponse response = new ProgramListResponse(result);
+//        return GenericResponse.ok(response);
+//    }
 
     @GetMapping("/{id}/remain")
     public GenericResponse<Integer> getRemainingCount(@PathVariable Long id) {
