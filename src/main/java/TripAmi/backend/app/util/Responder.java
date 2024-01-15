@@ -17,6 +17,7 @@ public class Responder {
         ObjectMapper objectMapper = new ObjectMapper();
         PrintWriter writer = response.getWriter();
         writer.write(objectMapper.writeValueAsString(LoginResponse.builder()
+                                                         .authMemberid(authMember.getId())
                                                          .email(authMember.getEmail())
                                                          .nickname(authMember.getNickname())
                                                          .imgUrl(authMember.getImgUrl())
