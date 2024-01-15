@@ -63,4 +63,16 @@ public class Review {
     public void report() {
         this.reported = true;
     }
+
+    public Boolean isReported() {
+        return this.reported;
+    }
+
+    public void delete() {
+        this.baseEntity.delete();
+    }
+
+    public Boolean isDeleted() {
+        return this.baseEntity.getDeleted();
+    }
 }
