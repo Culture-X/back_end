@@ -77,10 +77,10 @@ public class TmpDataInitializer {
                          .requiredTime(LocalTime.of(1, 30))
                          .distance("1km")
                          .transportWithTimes(Map.of(
-                             TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
-                             TransportCode.BUS, LocalDateTime.now().plusMinutes(20),
-                             TransportCode.TRAIN, LocalDateTime.now().plusMinutes(30),
-                             TransportCode.CAR, LocalDateTime.now().plusMinutes(40)
+                             TransportCode.WALK, LocalTime.of(0, 30),
+                             TransportCode.BUS, LocalTime.of(1, 0),
+                             TransportCode.TRAIN, LocalTime.of(1, 30),
+                             TransportCode.CAR, LocalTime.of(2, 0)
                          ))
                          .build();
 
@@ -91,10 +91,10 @@ public class TmpDataInitializer {
                          .requiredTime(LocalTime.of(2, 0))
                          .distance("3km")
                          .transportWithTimes(Map.of(
-                             TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
-                             TransportCode.BUS, LocalDateTime.now().plusMinutes(20),
-                             TransportCode.TRAIN, LocalDateTime.now().plusMinutes(30),
-                             TransportCode.CAR, LocalDateTime.now().plusMinutes(40)
+                             TransportCode.WALK, LocalTime.of(0, 30),
+                             TransportCode.BUS, LocalTime.of(1, 0),
+                             TransportCode.TRAIN, LocalTime.of(1, 30),
+                             TransportCode.CAR, LocalTime.of(2, 0)
                          ))
                          .build();
 

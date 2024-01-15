@@ -40,10 +40,10 @@ public class Spot {
     @CollectionTable(name = "spot_transport_mapping", joinColumns = @JoinColumn(name = "spot_id"))
     @MapKeyEnumerated(EnumType.STRING)
     @Column(name = "transport_time")
-    Map<TransportCode, LocalDateTime> transportWithTimes = new HashMap<>();
+    Map<TransportCode, LocalTime> transportWithTimes = new HashMap<>();
 
     @Builder
-    public Spot(Program program, String title, String imgUrl, String content, LocalTime requiredTime, String distance, Map<TransportCode, LocalDateTime> transportWithTimes) {
+    public Spot(Program program, String title, String imgUrl, String content, LocalTime requiredTime, String distance, Map<TransportCode, LocalTime> transportWithTimes) {
         this.program = program;
         this.title = title;
         this.imgUrl = imgUrl;

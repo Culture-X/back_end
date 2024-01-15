@@ -16,7 +16,7 @@ public record SpotDto(
     LocalTime requiredTime,
 
     String distance,
-    Map<TransportCode, LocalDateTime> transportWithTimes
+    Map<TransportCode, LocalTime> transportWithTimes
 
 ) {
 }
