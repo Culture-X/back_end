@@ -95,14 +95,14 @@ public class ProgramController {
         ThemeListResponse response = new ThemeListResponse(result);
         return GenericResponse.ok(response);
     }
-
-    /**
-     * Parameter로 받은 Theme에 해당하는 프로그램들을 조회
-     * 없는 Theme를 받으면 Exception
-     *
-     * @param theme 테마이름 (String)
-     * @return 해당하는 Theme에 포함된 Program(s)
-     */
+//
+//    /**
+//     * Parameter로 받은 Theme에 해당하는 프로그램들을 조회
+//     * 없는 Theme를 받으면 Exception
+//     *
+//     * @param theme 테마이름 (String)
+//     * @return 해당하는 Theme에 포함된 Program(s)
+//     */
 //    @GetMapping("/{theme}")
 //    public GenericResponse<ProgramListResponse> findProgramByTheme(@PathVariable String theme) {
 //        ProgramTheme programTheme = ProgramTheme.valueOf(theme.toUpperCase());

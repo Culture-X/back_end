@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 
@@ -82,6 +83,7 @@ public class TmpDataInitializer {
 
         Program program = Program.builder()
                               .title(title)
+                              .subTitle("sub title" + title)
                               .images(Arrays.asList("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg", "https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg"))
                               .content("Program content for " + title)
                               .price(100)
@@ -91,6 +93,7 @@ public class TmpDataInitializer {
                               .keywords(Arrays.asList("keyword1", "keyword2"))
                               .location("Program location for " + title)
                               .spots(Arrays.asList(spot1, spot2))
+                              .startTime(LocalDateTime.of(9999,12,31,12,42))
                               .build();
 
         spot1.setProgram(program);
