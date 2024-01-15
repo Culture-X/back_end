@@ -36,11 +36,13 @@ public class ProgramController {
         Program program = programService.findById(id);
         ProgramDto response = ProgramDto.builder()
                                   .title(program.getTitle())
+                                  .subTitle(program.getSubTitle())
                                   .amiId(program.getAmi().getId())
                                   .content(program.getContent())
                                   .images(program.getImages())
                                   .price(program.getPrice())
                                   .theme(program.getTheme())
+                                  .startTime(program.getStartTime())
                                   .build();
 
         List<SpotDto> spotDtos = program.getSpots().stream()
