@@ -24,10 +24,10 @@ public class AmiController {
         return GenericResponse.ok(amiService.findAmiById(amiId));
     }
 
-    @GetMapping("/{email}")
-    public GenericResponse<AmiDto> findAmi(@PathVariable String email) {
-        return GenericResponse.ok(amiService.findAmiByEmail(email));
-    }
+//    @GetMapping("/{email}")
+//    public GenericResponse<AmiDto> findAmi(@PathVariable String email) {
+//        return GenericResponse.ok(amiService.findAmiByEmail(email));
+//    }
 
     @GetMapping
     public GenericResponse<List<AmiDto>> findAmis() {

@@ -94,9 +94,9 @@ public class SecurityConfig {
             })
             .and()
             .authorizeRequests()
-            .antMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/api/v1/auth/**", "/v3/api-docs/**","/swagger-ui/**").permitAll()
             .antMatchers("/api/v1/admin/**", "/api/v1/members").hasRole("ADMIN")
-            .antMatchers("/api/v1/members/**", "/api/v1/program/**", "/api/v1/banners/**", "/api/v1/amis/**", "/api/v1/members/**").hasAnyRole("MEMBER", "ADMIN")
+            .antMatchers("/api/v1/members/**", "/api/v1/program/**","/api/v1/banners/**","/api/v1/amis/**" , "/api/v1/members/**").hasAnyRole("MEMBER", "ADMIN")
             .anyRequest().authenticated();
 
         return http.build();

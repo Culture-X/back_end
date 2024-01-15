@@ -1,5 +1,7 @@
 package TripAmi.backend.config;
 
+import TripAmi.backend.app.banner.domain.Banner;
+import TripAmi.backend.app.banner.domain.BannerRepository;
 import TripAmi.backend.app.member.domain.Ami;
 import TripAmi.backend.app.member.domain.Traveler;
 import TripAmi.backend.app.product.ProgramTheme;
@@ -24,6 +26,17 @@ public class TmpDataInitializer {
     private final ProgramRepository programRepository;
     private final AuthMemberRepository authMemberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BannerRepository bannerRepository;
+
+    @PostConstruct
+    private void createBanner() {
+        Banner banner = Banner.builder()
+                            .title("test data")
+                            .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
+                            .build();
+
+        bannerRepository.save(banner);
+    }
 
     @PostConstruct
     private void createMembersAndPrograms() {
