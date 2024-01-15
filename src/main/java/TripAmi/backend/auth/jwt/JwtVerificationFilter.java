@@ -24,8 +24,8 @@ import java.util.List;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL =
-        List.of("/api/v1/join/email",
-            "/api/v1/login");
+        List.of(
+            "/api/v1/auth/login");
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
