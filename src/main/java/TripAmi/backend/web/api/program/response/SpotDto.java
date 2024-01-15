@@ -14,6 +14,8 @@ public record SpotDto(
     String imgUrl,
     String content,
     LocalTime requiredTime,
+
+    String distance,
     Map<TransportCode, LocalDateTime> transportWithTimes
 
 ) {

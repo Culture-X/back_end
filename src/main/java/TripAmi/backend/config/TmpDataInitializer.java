@@ -75,6 +75,7 @@ public class TmpDataInitializer {
                          .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 1 content for " + title)
                          .requiredTime(LocalTime.of(1, 30))
+                         .distance("1km")
                          .transportWithTimes(Map.of(
                              TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
                              TransportCode.BUS, LocalDateTime.now().plusMinutes(20),
@@ -88,6 +89,7 @@ public class TmpDataInitializer {
                          .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 2 content for " + title)
                          .requiredTime(LocalTime.of(2, 0))
+                         .distance("3km")
                          .transportWithTimes(Map.of(
                              TransportCode.WALK, LocalDateTime.now().plusMinutes(10),
                              TransportCode.BUS, LocalDateTime.now().plusMinutes(20),

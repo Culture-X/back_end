@@ -34,6 +34,8 @@ public class Spot {
     @Column(nullable = false)
     LocalTime requiredTime;
 
+    String distance;
+
     @ElementCollection
     @CollectionTable(name = "spot_transport_mapping", joinColumns = @JoinColumn(name = "spot_id"))
     @MapKeyEnumerated(EnumType.STRING)
@@ -41,12 +43,13 @@ public class Spot {
     Map<TransportCode, LocalDateTime> transportWithTimes = new HashMap<>();
 
     @Builder
-    public Spot(Program program, String title, String imgUrl, String content, LocalTime requiredTime, Map<TransportCode, LocalDateTime> transportWithTimes) {
+    public Spot(Program program, String title, String imgUrl, String content, LocalTime requiredTime, String distance, Map<TransportCode, LocalDateTime> transportWithTimes) {
         this.program = program;
         this.title = title;
         this.imgUrl = imgUrl;
         this.content = content;
         this.requiredTime = requiredTime;
+        this.distance = distance;
         this.transportWithTimes = transportWithTimes;
     }
 

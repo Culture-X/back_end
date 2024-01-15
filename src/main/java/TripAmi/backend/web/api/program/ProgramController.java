@@ -53,6 +53,7 @@ public class ProgramController {
                                                       .imgUrl(spot.getImgUrl())
                                                       .content(spot.getContent())
                                                       .requiredTime(spot.getRequiredTime())
+                                                      .distance(spot.getDistance())
                                                       .transportWithTimes(spot.getTransportWithTimes())
                                                       .build())
                                      .collect(Collectors.toList());
