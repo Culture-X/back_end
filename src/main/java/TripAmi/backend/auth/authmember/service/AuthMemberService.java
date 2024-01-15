@@ -6,7 +6,6 @@ import TripAmi.backend.app.member.domain.Traveler;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.Role;
 import TripAmi.backend.auth.authmember.service.dto.DetailedAuthMemberDto;
-import TripAmi.backend.auth.authmember.service.dto.LoginDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

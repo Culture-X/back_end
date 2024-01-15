@@ -4,7 +4,6 @@ import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.Role;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 public class JoinResponse{
     private Long memberId;

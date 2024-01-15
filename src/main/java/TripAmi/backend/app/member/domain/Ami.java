@@ -1,17 +1,19 @@
 package TripAmi.backend.app.member.domain;
 
-import TripAmi.backend.app.product.domain.Product;
 import TripAmi.backend.app.product.domain.Program;
 import TripAmi.backend.app.util.Star;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "ami")
 public class Ami {
     @Id
@@ -24,9 +26,6 @@ public class Ami {
     private AuthMember authMember;
     @OneToMany(mappedBy = "ami", cascade = CascadeType.ALL)
     private List<Program> programs = new ArrayList<>();
-    public Ami() {
-        this.rating.addStar(Star.ZERO);
-    }
 
     public void setAuthMember(AuthMember authMember) {
         this.authMember = authMember;
@@ -45,5 +44,13 @@ public class Ami {
         for (Star star : stars) {
             this.rating.addStar(star);
         }
+    }
+
+    public void updateRating(Star star) {
+        this.rating.addStar(star);
+    }
+
+    public BigDecimal getRating() {
+        return this.rating.getRating();
     }
 }

@@ -95,4 +95,5 @@ public class MemberController {
         return GenericResponse.ok();
     }
 
+    //todo 프로필 사진 업데이트 api
 }
