@@ -45,7 +45,7 @@ public class TmpDataInitializer {
             Ami ami = new Ami();
 
             AuthMember authMember = AuthMember.builder()
-                                        .email("user@asd." + i)
+                                        .email("user" + i + "@gmail.com")
                                         .raw("user password" + 1)
                                         .role(Role.ROLE_MEMBER)
                                         .nickname("user" + i)
@@ -68,21 +68,21 @@ public class TmpDataInitializer {
         // Add two spots to the program
         Spot spot1 = Spot.builder()
                          .title("Spot 1 for " + title)
-                         .imgUrl("spot1_image.jpg")
+                         .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 1 content for " + title)
                          .requiredTime(LocalTime.of(1, 30))
                          .build();
 
         Spot spot2 = Spot.builder()
                          .title("Spot 2 for " + title)
-                         .imgUrl("spot2_image.jpg")
+                         .imgUrl("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg")
                          .content("Spot 2 content for " + title)
                          .requiredTime(LocalTime.of(2, 0))
                          .build();
 
         Program program = Program.builder()
                               .title(title)
-                              .images(Arrays.asList("image1.jpg", "image2.jpg"))
+                              .images(Arrays.asList("https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg", "https://geographical.co.uk/wp-content/uploads/panda1200-1.jpg"))
                               .content("Program content for " + title)
                               .price(100)
                               .ami(ami)
