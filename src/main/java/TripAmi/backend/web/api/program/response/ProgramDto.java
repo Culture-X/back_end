@@ -10,7 +10,6 @@ import java.util.List;
 @Builder
 @Getter
 public class ProgramDto {
-    private Long id;
     private String title;
     private String subTitle;
     private List<String> images;
