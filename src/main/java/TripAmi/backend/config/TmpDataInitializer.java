@@ -13,6 +13,7 @@ import TripAmi.backend.app.report.domain.Report;
 import TripAmi.backend.app.report.domain.ReportRepository;
 import TripAmi.backend.app.report.domain.ReportStatus;
 import TripAmi.backend.app.report.domain.ReportType;
+import TripAmi.backend.app.util.Star;
 import TripAmi.backend.auth.authmember.domain.AuthMember;
 import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
 import TripAmi.backend.auth.authmember.domain.Role;
@@ -21,11 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -60,11 +59,11 @@ public class TmpDataInitializer {
         reportRepository.save(report);
 
         Report report2 = Report.builder()
-                            .authorId(2L)
-                            .type(ReportType.ECT)
-                            .content("test report test reporttest reporttest reporttest reporttest report")
-                            .status(ReportStatus.READ)
-                            .build();
+                             .authorId(2L)
+                             .type(ReportType.ECT)
+                             .content("test report test reporttest reporttest reporttest reporttest report")
+                             .status(ReportStatus.READ)
+                             .build();
 
         reportRepository.save(report2);
 
@@ -83,11 +82,13 @@ public class TmpDataInitializer {
     private void createMembersAndPrograms() {
         LocalDateTime time = LocalDateTime.now();
 
-
         for (Long i = 1L; i <= 3L; i++) {
             time = time.plusDays(1L);
             Traveler traveler = new Traveler();
             Ami ami = new Ami();
+            ami.updateRating(Star.FIVE);
+            ami.updateRating(Star.THREE);
+            ami.updateRating(Star.TWO);
 
             AuthMember authMember = AuthMember.builder()
                                         .email("user" + i + "@gmail.com")
