@@ -19,10 +19,11 @@ public class ProgramDto {
     private Long amiId;
     private ProgramTheme theme;
     private List<String> keywords;
+    private String location;
     private List<SpotDto> spots;
 
     @Builder
-    public ProgramDto(String title, String subTitle, List<String> images, LocalDateTime startTime, String content, Integer price, Long amiId, ProgramTheme theme, List<String> keywords, List<SpotDto> spots) {
+    public ProgramDto(String title, String subTitle, List<String> images, LocalDateTime startTime, String content, Integer price, Long amiId, ProgramTheme theme, List<String> keywords, String location, List<SpotDto> spots) {
         this.title = title;
         this.subTitle = subTitle;
         this.images = images;
@@ -32,6 +33,7 @@ public class ProgramDto {
         this.amiId = amiId;
         this.theme = theme;
         this.keywords = keywords;
+        this.location = location;
         this.spots = spots;
     }
 

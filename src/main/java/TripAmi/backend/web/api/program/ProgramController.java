@@ -42,6 +42,7 @@ public class ProgramController {
                                   .images(program.getImages())
                                   .price(program.getPrice())
                                   .theme(program.getTheme())
+                                  .location(program.getLocation())
                                   .keywords(program.getKeywords())
                                   .startTime(program.getStartTime())
                                   .build();
