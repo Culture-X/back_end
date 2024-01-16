@@ -9,6 +9,7 @@ import TripAmi.backend.auth.authmember.domain.AuthMemberRepository;
 import TripAmi.backend.auth.authmember.domain.Role;
 import TripAmi.backend.auth.authmember.service.AuthCodeService;
 import TripAmi.backend.auth.authmember.service.AuthMemberService;
+import TripAmi.backend.auth.authmember.service.TempPasswordGenerator;
 import TripAmi.backend.auth.authmember.service.dto.DetailedAuthMemberDto;
 import TripAmi.backend.auth.authmember.service.dto.PasswordPatternChecker;
 import TripAmi.backend.auth.authmember.service.exception.DuplicatedEmailException;
@@ -111,7 +112,6 @@ public class AuthMemberServiceImpl implements AuthMemberService {
         passwordPatternChecker.checkCharsCombination(password);
         AuthMember authMember = authMemberRepository.findById(authMemberId).orElseThrow(MemberNotFound::new);
         authMember.updatePassword(password, passwordEncoder);
-        // todo update 로직 추가
     }
 
     @Override
@@ -253,5 +253,14 @@ public class AuthMemberServiceImpl implements AuthMemberService {
     @Override
     public Traveler findTravelerByEmail(String email) {
         return this.findAuthMemberByEmail(email).getTraveler();
+    }
+
+    @Override
+    @Transactional
+    public void updateTempPassword(String email) {
+        AuthMember authMember = findAuthMemberByEmail(email);
+        String tempPassword = TempPasswordGenerator.generateTempPassword();
+        authMember.updatePassword(tempPassword, passwordEncoder);
+        mailService.sendPasswordToEmail(email, tempPassword);
     }
 }

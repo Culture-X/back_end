@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.HALF_UP;
 
@@ -57,18 +58,18 @@ public class Rating {
     }
 
     public BigDecimal getRating() {
-        if (getCumulativeSum() == 0)
+        if (getCumulativeSum().equals(ZERO))
             return (valueOf(0));
-        return valueOf(getCumulativeSum())
-                   .divide(valueOf(getTotalNum()), HALF_UP)
+        return getCumulativeSum()
+                   .divide(getTotalNum(), HALF_UP)
                    .setScale(5, HALF_UP);
     }
 
-    private Integer getCumulativeSum() {
-        return oneStarNb + 2 * twoStarNb + 3 * threeStarNb + 4 * fourStarNb + 5 * fiveStarNb;
+    private BigDecimal getCumulativeSum() {
+        return valueOf(oneStarNb + 2 * twoStarNb + 3 * threeStarNb + 4 * fourStarNb + 5 * fiveStarNb).setScale(5, HALF_UP);
     }
 
-    private Integer getTotalNum() {
-        return (oneStarNb + twoStarNb + threeStarNb + fourStarNb + fiveStarNb);
+    private BigDecimal getTotalNum() {
+        return valueOf(oneStarNb + twoStarNb + threeStarNb + fourStarNb + fiveStarNb).setScale(5, HALF_UP);
     }
 }

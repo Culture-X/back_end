@@ -50,4 +50,6 @@ public interface AuthMemberService {
 
     Traveler findTravelerByEmail(String email);
 
+    void updateTempPassword(String email);
+
 }
