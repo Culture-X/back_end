@@ -57,6 +57,17 @@ public class MailService {
         }
     }
 
+    public void sendPasswordToEmail(String toEmail, String tempPassword) {
+        SimpleMailMessage emailForm = createTempPasswordText(toEmail, tempPassword);
+        try {
+            emailSender.send(emailForm);
+        } catch (RuntimeException e) {
+            log.debug("MailService.sendEmail exception occur toEmail: {}, " +
+                          "title: {}, text: {}", toEmail, emailForm.getSubject(), emailForm.getText());
+            throw new SendMailException();
+        }
+    }
+
     // 발신할 이메일 데이터 세팅
     private SimpleMailMessage createEmailForm(String toEmail,
                                               String title,
@@ -89,6 +100,14 @@ public class MailService {
         message.setTo(toEmail);
         message.setSubject("[TRIPAMI] Authentication code for join");
         message.setText("Authentication Code: " + authCode);
+        return message;
+    }
+
+    private SimpleMailMessage createTempPasswordText(String toEmail, String tempPassword) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("[TRIPAMI] Temporary password set");
+        message.setText("\n\nTemporary Password: " + tempPassword + "\nA temporary password has been set. Please reset the password.");
         return message;
     }
 }

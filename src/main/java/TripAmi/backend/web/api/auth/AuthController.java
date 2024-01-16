@@ -137,5 +137,15 @@ public class AuthController {
 
         return GenericResponse.ok();
     }
+    @Operation(summary = "임시 비밀번호 요청")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "임시 비밀번호 변경 및 메일 전송"),
+        @ApiResponse(responseCode = "401", description = "존재하지 않는 이메일")
+    })
+    @PatchMapping("/tempPassword")
+    public GenericResponse<String> updateTempPassword(@RequestBody @Valid updateTempPasswordRequest request) {
+        authMemberService.updateTempPassword(request.email());
+        return GenericResponse.ok();
+    }
 }
 
